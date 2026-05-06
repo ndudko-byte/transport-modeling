@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Транспортное моделирование</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0f1c2e;
+      --surface:  #162336;
+      --card:     #1c2e45;
+      --accent:   #2f80c2;
+      --accent2:  #1a5f96;
+      --text:     #d4dde8;
+      --text-dim: #8a9bb0;
+      --border:   #253a55;
+      --radius:   10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      border-bottom: 1px solid rgba(37,58,85,.6);
+      background: rgba(15,28,46,.92);
+      backdrop-filter: blur(12px);
+    }
+
+    .logo {
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fff;
+    }
+
+    .logo span { color: var(--accent); }
+
+    nav { display: flex; gap: 32px; }
+
+    nav a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: color .2s;
+    }
+
+    nav a:hover { color: #fff; }
+
+    .burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .burger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 48px 80px;
+      background:
+        linear-gradient(160deg, rgba(10,18,32,.75) 0%, rgba(15,28,46,.60) 50%, rgba(22,35,54,.78) 100%),
+        url("source/pics/razv.jpg") center/cover no-repeat;
+    }
+
+    .hero-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    #hero h1 {
+      font-size: clamp(2.6rem, 6vw, 5rem);
+      font-weight: 800;
+      color: #fff;
+      max-width: 820px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+
+    #hero p {
+      font-size: clamp(1rem, 1.8vw, 1.15rem);
+      color: var(--text-dim);
+      max-width: 540px;
+      margin-bottom: 48px;
+      line-height: 1.7;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      border: none;
+      background: none;
+      cursor: pointer;
+      padding: 0;
+      transition: gap .25s;
+    }
+
+    .hero-cta:hover { gap: 16px; }
+
+    .hero-cta svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      right: 48px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero-scroll::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 100px 48px; }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 20px;
+      margin-bottom: 64px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-index {
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.01em;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--surface); }
+
+    .service-list { display: flex; flex-direction: column; }
+
+    .service-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 32px;
+      padding: 44px 0;
+      border-bottom: 1px solid var(--border);
+      transition: background .2s;
+    }
+
+    .service-item:first-child { border-top: 1px solid var(--border); }
+
+    .service-num {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      padding-top: 6px;
+    }
+
+    .service-content h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .service-content p {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      max-width: 640px;
+      line-height: 1.7;
+    }
+
+    /* ── PROJECTS ── */
+    .project-list { display: flex; flex-direction: column; }
+
+    .project-item {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: start;
+      gap: 32px;
+      padding: 40px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .project-item:first-child { border-top: 1px solid var(--border); }
+
+    .project-num {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      font-weight: 600;
+      padding-top: 5px;
+    }
+
+    .project-info { }
+
+    .project-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .project-info h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .project-info p {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      max-width: 520px;
+      line-height: 1.65;
+    }
+
+    .project-action {
+      padding-top: 4px;
+      flex-shrink: 0;
+    }
+
+    .btn-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      border: none;
+      background: none;
+      cursor: pointer;
+      padding: 0;
+      white-space: nowrap;
+      transition: gap .2s, color .2s;
+    }
+
+    .btn-arrow:hover { gap: 14px; color: #fff; }
+
+    .btn-arrow svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    /* ── ABOUT ── */
+    #about { background: var(--surface); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .about-text h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 28px;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .about-text p {
+      color: var(--text-dim);
+      margin-bottom: 16px;
+      font-size: 0.97rem;
+      line-height: 1.75;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .stat {
+      background: var(--card);
+      padding: 32px 28px;
+    }
+
+    .stat-num {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-num span { color: var(--accent); }
+
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    /* ── TEAM ── */
+    .team-list { display: flex; flex-direction: column; }
+
+    .team-item {
+      display: grid;
+      grid-template-columns: 80px 200px 1fr;
+      align-items: center;
+      gap: 32px;
+      padding: 36px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .team-item:first-child { border-top: 1px solid var(--border); }
+
+    .team-num {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+
+    .team-name h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .team-name .role {
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    .team-bio {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      line-height: 1.65;
+      max-width: 500px;
+    }
+
+    /* ── FORM ── */
+    #contact { background: var(--surface); }
+
+    .form-wrap {
+      max-width: 680px;
+    }
+
+    .form-wrap .form-lead {
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .form-wrap .form-sub {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      margin-bottom: 48px;
+    }
+
+    .field { margin-bottom: 20px; }
+
+    .field label {
+      display: block;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      padding: 14px 0;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color .2s;
+      resize: none;
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      outline: none;
+      border-bottom-color: var(--accent);
+    }
+
+    .field textarea { min-height: 100px; }
+
+    /* ── CHECKBOX ── */
+    .consent-field {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin: 28px 0 36px;
+    }
+
+    .consent-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      border: 2px solid var(--accent);
+      border-radius: 5px;
+      background: transparent;
+      position: relative;
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .consent-checkbox::before {
+      content: "";
+      background: var(--accent);
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      transition: transform .2s ease-in-out;
+    }
+
+    .consent-checkbox:checked::before {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .consent-checkbox:checked {
+      border-color: var(--accent);
+      box-shadow: 0 0 8px rgba(47,128,194,.4);
+    }
+
+    .consent-label {
+      font-size: 0.83rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      cursor: pointer;
+    }
+
+    .consent-label a { color: var(--accent); text-decoration: none; }
+    .consent-label a:hover { text-decoration: underline; }
+
+    /* ── SUBMIT BTN ── */
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      padding: 0;
+      transition: gap .25s, color .2s;
+    }
+
+    .btn-submit:hover { gap: 20px; color: var(--accent); }
+
+    .btn-submit svg {
+      width: 22px;
+      height: 22px;
+      fill: var(--accent);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #080f1a;
+      border-top: 1px solid var(--border);
+      padding: 36px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer p {
+      color: var(--text-dim);
+      font-size: 0.82rem;
+    }
+
+    footer .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    footer .footer-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.82rem;
+      transition: color .2s;
+    }
+
+    footer .footer-links a:hover { color: #fff; }
+
+    /* ── CHAT FAB ── */
+    .chat-fab {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 22px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(47,128,194,.45);
+      transition: background .2s, transform .15s;
+    }
+
+    .chat-fab:hover { background: var(--accent2); transform: translateY(-2px); }
+    .chat-fab svg { width: 18px; height: 18px; fill: #fff; flex-shrink: 0; }
+
+    /* ── CHAT POPUP ── */
+    .chat-popup {
+      display: none;
+      position: fixed;
+      bottom: 84px;
+      right: 28px;
+      z-index: 300;
+      width: 300px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 32px rgba(0,0,0,.5);
+    }
+
+    .chat-popup.open { display: block; animation: slideUp .2s ease; }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .chat-header {
+      background: var(--accent);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .chat-header span { font-weight: 600; font-size: 0.9rem; color: #fff; }
+
+    .chat-close {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      line-height: 1;
+      opacity: .8;
+      transition: opacity .15s;
+    }
+
+    .chat-close:hover { opacity: 1; }
+
+    .chat-body { padding: 20px 18px 22px; }
+
+    .chat-msg {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .chat-phone {
+      display: block;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0,0,0,.7);
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .modal-overlay.open { display: flex; animation: fadeIn .2s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 52px 44px;
+      text-align: center;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,.6);
+      animation: scaleIn .22s ease;
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(.94); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    .modal-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(47,128,194,.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+
+    .modal-icon svg { width: 30px; height: 30px; fill: var(--accent); }
+
+    .modal h2 { font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 10px; }
+    .modal p  { color: var(--text-dim); font-size: 0.92rem; margin-bottom: 32px; }
+
+    .btn-modal {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      padding: 12px 28px;
+      border-radius: 50px;
+      transition: border-color .2s, color .2s;
+    }
+
+    .btn-modal:hover { border-color: var(--accent); color: #fff; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .project-item { grid-template-columns: 60px 1fr; }
+      .project-action { grid-column: 2; }
+      .team-item { grid-template-columns: 60px 1fr; }
+      .team-bio { grid-column: 2; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    @media (max-width: 660px) {
+      header { padding: 0 24px; }
+      nav { display: none; }
+      nav.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 68px;
+        left: 0;
+        right: 0;
+        background: rgba(15,28,46,.98);
+        border-bottom: 1px solid var(--border);
+        padding: 16px 24px 20px;
+        gap: 4px;
+        z-index: 99;
+      }
+      nav.open a { font-size: 0.9rem; padding: 10px 0; }
+      .burger { display: flex; }
+      #hero { padding: 0 24px 60px; min-height: 100svh; }
+      #hero h1 { font-size: 2.2rem; }
+      section { padding: 72px 24px; }
+      .section-header { flex-direction: column; gap: 8px; }
+      .service-item { grid-template-columns: 1fr; gap: 12px; }
+      .service-num { padding-top: 0; }
+      .project-item { grid-template-columns: 1fr; gap: 12px; }
+      .project-num { display: none; }
+      .team-item { grid-template-columns: 1fr; gap: 10px; }
+      .team-num { display: none; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; }
+      .chat-fab span { display: none; }
+      .chat-fab { padding: 14px; border-radius: 50%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header>
+  <div class="logo">Транспортное <span>моделирование</span></div>
+  <nav id="main-nav">
+    <a href="#services">Услуги</a>
+    <a href="#projects">Проекты</a>
+    <a href="#about">О нас</a>
+    <a href="#team">Команда</a>
+    <a href="#contact">Контакты</a>
+  </nav>
+  <div class="burger" id="burger" aria-label="Меню">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section id="hero">
+  <div class="hero-label">Транспортное планирование · PTV Vissim</div>
+  <h1>Оптимальные транспортные решения для городских территорий</h1>
+  <p>Разрабатываем модели для существующих и проектируемых территорий — точно, обоснованно, в срок.</p>
+  <button class="hero-cta" onclick="showModal()">
+    Оставить заявку
+    <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="#2f80c2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+  </button>
+  <div class="hero-scroll">Прокрутить</div>
+</section>
+
+<!-- ═══════════ SERVICES ═══════════ -->
+<section id="services">
+  <div class="section-header">
+    <span class="section-index">Услуги</span>
+    <h2 class="section-title">Полный цикл транспортного моделирования</h2>
+  </div>
+
+  <div class="service-list">
+
+    <div class="service-item">
+      <div class="service-num">01</div>
+      <div class="service-content">
+        <h3>Моделирование существующих территорий</h3>
+        <p>Натурное обследование, сбор трафика, калибровка модели PTV Vissim под реальные транспортные потоки. Выявляем узкие места и источники заторов.</p>
+      </div>
+    </div>
+
+    <div class="service-item">
+      <div class="service-num">02</div>
+      <div class="service-content">
+        <h3>Анализ проектируемых объектов</h3>
+        <p>Оценка транспортного воздействия новых жилых кварталов, деловых центров и логистических узлов ещё на стадии проектирования. Сценарный анализ горизонтов.</p>
+      </div>
+    </div>
+
+    <div class="service-item">
+      <div class="service-num">03</div>
+      <div class="service-content">
+        <h3>Оптимизация организации движения</h3>
+        <p>Разработка мероприятий по ОДД: фазирование светофоров, перераспределение потоков, велосипедная и пешеходная инфраструктура. Проверка решений в симуляции.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════ PROJECTS ═══════════ -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-index">Проекты</span>
+    <h2 class="section-title">Реализованные задачи моделирования</h2>
+  </div>
+
+  <div class="project-list">
+
+    <div class="project-item">
+      <div class="project-num">01</div>
+      <div class="project-info">
+        <span class="project-tag">Жилой квартал</span>
+        <h3>Транспортная модель ЖК «Северный»</h3>
+        <p>Оценка нагрузки от 4 800 квартир на улично-дорожную сеть. Оптимизация выездов и схемы паркования.</p>
+      </div>
+      <div class="project-action">
+        <button class="btn-arrow" onclick="showModal()">
+          Подробнее
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="project-item">
+      <div class="project-num">02</div>
+      <div class="project-info">
+        <span class="project-tag">Пересечение</span>
+        <h3>Реконструкция узла на пр. Ленина</h3>
+        <p>Моделирование пяти сценариев реконструкции сложного многополосного перекрёстка. Снижение задержки на 34%.</p>
+      </div>
+      <div class="project-action">
+        <button class="btn-arrow" onclick="showModal()">
+          Подробнее
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="project-item">
+      <div class="project-num">03</div>
+      <div class="project-info">
+        <span class="project-tag">Логистика</span>
+        <h3>Грузовой терминал «Восток-2»</h3>
+        <p>Анализ транспортного воздействия крупного логистического хаба. Маршрутизация тяжёлого транспорта, разделение потоков.</p>
+      </div>
+      <div class="project-action">
+        <button class="btn-arrow" onclick="showModal()">
+          Подробнее
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════ ABOUT ═══════════ -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text">
+      <h2>Транспортная экспертиза на стыке данных и градостроительства</h2>
+      <p>Мы — команда сертифицированных специалистов в области транспортного планирования и микроскопического моделирования. Ключевой инструмент нашей работы — <strong>PTV Vissim</strong>, мировой стандарт микросимуляции транспортных потоков.</p>
+      <p>Выполняем полный цикл: от натурных обследований и сбора данных до разработки модели, её калибровки и выпуска технического отчёта с рекомендациями.</p>
+      <p>Наши модели принимаются в государственных органах и служат основой для проектных решений, согласований и ГПЗУ.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat">
+        <div class="stat-num">80<span>+</span></div>
+        <div class="stat-label">Выполненных проектов</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">7</div>
+        <div class="stat-label">Лет на рынке</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">12</div>
+        <div class="stat-label">Городов присутствия</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100<span>%</span></div>
+        <div class="stat-label">Согласованных отчётов</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ TEAM ═══════════ -->
+<section id="team">
+  <div class="section-header">
+    <span class="section-index">Команда</span>
+    <h2 class="section-title">Профессионалы транспортного планирования</h2>
+  </div>
+
+  <div class="team-list">
+
+    <div class="team-item">
+      <div class="team-num">01</div>
+      <div class="team-name">
+        <h3>Алексей Воронин</h3>
+        <div class="role">Руководитель проектов</div>
+      </div>
+      <div class="team-bio">10 лет в транспортном планировании. Сертифицированный пользователь PTV Vissim и PTV Visum. Опыт работы с объектами федерального значения.</div>
+    </div>
+
+    <div class="team-item">
+      <div class="team-num">02</div>
+      <div class="team-name">
+        <h3>Мария Колесникова</h3>
+        <div class="role">Инженер-транспортник</div>
+      </div>
+      <div class="team-bio">Специализация — калибровка микросимуляционных моделей и анализ данных трафика. Опыт работы с крупными жилыми кварталами и ТПУ.</div>
+    </div>
+
+    <div class="team-item">
+      <div class="team-num">03</div>
+      <div class="team-name">
+        <h3>Дмитрий Панов</h3>
+        <div class="role">Аналитик данных</div>
+      </div>
+      <div class="team-bio">Обработка результатов натурных обследований, расчёт матриц корреспонденций, визуализация транспортных потоков и подготовка технических отчётов.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════ CONTACT ═══════════ -->
+<section id="contact">
+  <div class="form-wrap">
+    <p class="form-lead">Начните разговор о вашем проекте</p>
+    <p class="form-sub">Опишите задачу — свяжемся в течение 2 часов</p>
+    <form id="contact-form" onsubmit="handleForm(event)">
+      <div class="field">
+        <label for="name">Ваше имя</label>
+        <input type="text" id="name" name="name" placeholder="Иван Иванов" required />
+      </div>
+      <div class="field">
+        <label for="phone">Телефон</label>
+        <input type="tel" id="phone" name="phone" placeholder="+7 (___) ___-__-__" required />
+      </div>
+      <div class="field">
+        <label for="task">Описание задачи</label>
+        <textarea id="task" name="task" placeholder="Расскажите о вашем объекте и задаче..." required></textarea>
+      </div>
+      <div class="consent-field">
+        <input type="checkbox" id="consent" class="consent-checkbox" required />
+        <label for="consent" class="consent-label">
+          Я согласен на обработку персональных данных в соответствии с&nbsp;<a href="#">политикой конфиденциальности</a>
+        </label>
+      </div>
+      <button type="submit" class="btn-submit">
+        Отправить заявку
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="#2f80c2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <p>&copy; 2025 Транспортное моделирование</p>
+  <div class="footer-links">
+    <a href="mailto:info@transport-model.ru">info@transport-model.ru</a>
+    <a href="tel:+74950000000">+7 (495) 000-00-00</a>
+  </div>
+</footer>
+
+<!-- ═══════════ CHAT FAB ═══════════ -->
+<button class="chat-fab" id="chat-fab" onclick="toggleChat()">
+  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+  <span>Задать вопрос</span>
+</button>
+
+<!-- ═══════════ CHAT POPUP ═══════════ -->
+<div class="chat-popup" id="chat-popup">
+  <div class="chat-header">
+    <span>Онлайн-консультация</span>
+    <button class="chat-close" onclick="toggleChat()">&#x2715;</button>
+  </div>
+  <div class="chat-body">
+    <div class="chat-msg">Чат в разработке. Свяжитесь с нами по телефону — ответим на любые вопросы.</div>
+    <a class="chat-phone" href="tel:+74950000000">+7 (495) 000-00-00</a>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL ═══════════ -->
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+    </div>
+    <h2>Спасибо!</h2>
+    <p>Свяжемся с вами в течение 2 часов.</p>
+    <button class="btn-modal" onclick="closeModal()">Закрыть</button>
+  </div>
+</div>
+
+<script>
+  const burger = document.getElementById('burger');
+  const nav    = document.getElementById('main-nav');
+  burger.addEventListener('click', () => nav.classList.toggle('open'));
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+
+  function showModal() {
+    document.getElementById('modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modal-overlay')) closeModal();
+  }
+
+  function handleForm(e) {
+    e.preventDefault();
+    showModal();
+    e.target.reset();
+  }
+
+  function toggleChat() {
+    document.getElementById('chat-popup').classList.toggle('open');
+  }
+</script>
+</body>
+</html>
