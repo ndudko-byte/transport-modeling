@@ -763,15 +763,35 @@
 
     .case-item:first-child { border-top: 1px solid var(--border); }
 
-    .case-svg {
+    .case-video {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--card);
       border: 1px solid var(--border);
-      background: #0a1422;
       border-radius: var(--radius);
       overflow: hidden;
-      aspect-ratio: 4/3;
     }
 
-    .case-svg svg { width: 100%; height: 100%; display: block; }
+    .case-video iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    .case-video-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--card);
+      color: var(--text-dim);
+      font-size: 0.83rem;
+      letter-spacing: 0.06em;
+      pointer-events: none;
+    }
 
     .case-meta {
       font-size: 0.75rem;
@@ -1116,91 +1136,14 @@
 
     <!-- Кейс 1 -->
     <div class="case-item">
-      <div class="case-svg">
-        <svg viewBox="0 0 460 345" xmlns="http://www.w3.org/2000/svg">
-          <rect width="460" height="345" fill="#0a1422"/>
-          <!-- Артериальная дорога горизонтальная -->
-          <rect x="0" y="175" width="460" height="48" fill="#253a55"/>
-          <line x1="0" y1="199" x2="108" y2="199" stroke="#3d5a7a" stroke-width="1.5" stroke-dasharray="18,10"/>
-          <line x1="168" y1="199" x2="288" y2="199" stroke="#3d5a7a" stroke-width="1.5" stroke-dasharray="18,10"/>
-          <line x1="350" y1="199" x2="460" y2="199" stroke="#3d5a7a" stroke-width="1.5" stroke-dasharray="18,10"/>
-          <!-- Выезд ЖК 1 -->
-          <rect x="108" y="0" width="40" height="175" fill="#253a55"/>
-          <line x1="128" y1="10" x2="128" y2="165" stroke="#3d5a7a" stroke-width="1.5" stroke-dasharray="14,10"/>
-          <!-- Выезд ЖК 2 -->
-          <rect x="308" y="0" width="40" height="175" fill="#253a55"/>
-          <line x1="328" y1="10" x2="328" y2="165" stroke="#3d5a7a" stroke-width="1.5" stroke-dasharray="14,10"/>
-          <!-- Блок ЖК левый -->
-          <rect x="16" y="20" width="84" height="100" fill="#162336" rx="3"/>
-          <rect x="20" y="24" width="16" height="12" fill="#1e3352" rx="1"/>
-          <rect x="40" y="24" width="16" height="12" fill="#1e3352" rx="1"/>
-          <rect x="60" y="24" width="16" height="12" fill="#1a2f48" rx="1"/>
-          <rect x="20" y="42" width="16" height="12" fill="#1e3352" rx="1"/>
-          <rect x="40" y="42" width="16" height="12" fill="#2f80c2" rx="1" opacity="0.4"/>
-          <rect x="60" y="42" width="16" height="12" fill="#1e3352" rx="1"/>
-          <rect x="20" y="60" width="16" height="12" fill="#1a2f48" rx="1"/>
-          <rect x="40" y="60" width="16" height="12" fill="#1e3352" rx="1"/>
-          <rect x="60" y="60" width="16" height="12" fill="#2f80c2" rx="1" opacity="0.35"/>
-          <!-- Блок ЖК средний -->
-          <rect x="156" y="20" width="144" height="100" fill="#162336" rx="3"/>
-          <rect x="162" y="26" width="18" height="13" fill="#1e3352" rx="1"/>
-          <rect x="186" y="26" width="18" height="13" fill="#2f80c2" rx="1" opacity="0.4"/>
-          <rect x="210" y="26" width="18" height="13" fill="#1e3352" rx="1"/>
-          <rect x="234" y="26" width="18" height="13" fill="#1a2f48" rx="1"/>
-          <rect x="258" y="26" width="18" height="13" fill="#1e3352" rx="1"/>
-          <rect x="162" y="46" width="18" height="13" fill="#2f80c2" rx="1" opacity="0.3"/>
-          <rect x="186" y="46" width="18" height="13" fill="#1e3352" rx="1"/>
-          <rect x="210" y="46" width="18" height="13" fill="#1a2f48" rx="1"/>
-          <rect x="234" y="46" width="18" height="13" fill="#1e3352" rx="1"/>
-          <rect x="258" y="46" width="18" height="13" fill="#2f80c2" rx="1" opacity="0.35"/>
-          <!-- Блок ЖК правый -->
-          <rect x="356" y="20" width="88" height="100" fill="#162336" rx="3"/>
-          <rect x="362" y="26" width="16" height="12" fill="#1e3352" rx="1"/>
-          <rect x="384" y="26" width="16" height="12" fill="#2f80c2" rx="1" opacity="0.4"/>
-          <rect x="406" y="26" width="16" height="12" fill="#1a2f48" rx="1"/>
-          <rect x="362" y="44" width="16" height="12" fill="#1a2f48" rx="1"/>
-          <rect x="384" y="44" width="16" height="12" fill="#1e3352" rx="1"/>
-          <rect x="406" y="44" width="16" height="12" fill="#2f80c2" rx="1" opacity="0.3"/>
-          <!-- Подписи блоков -->
-          <text x="58" y="142" font-size="8" fill="#8a9bb0" text-anchor="middle" font-family="sans-serif" font-weight="600">СЕКЦИЯ А</text>
-          <text x="228" y="142" font-size="8" fill="#8a9bb0" text-anchor="middle" font-family="sans-serif" font-weight="600">СЕКЦИЯ Б</text>
-          <text x="400" y="142" font-size="8" fill="#8a9bb0" text-anchor="middle" font-family="sans-serif" font-weight="600">СЕКЦИЯ В</text>
-          <!-- Светофоры -->
-          <rect x="104" y="162" width="5" height="16" fill="#4a6a8a"/>
-          <circle cx="106" cy="160" r="5" fill="#22c55e" opacity="0.85"/>
-          <rect x="148" y="162" width="5" height="16" fill="#4a6a8a"/>
-          <circle cx="150" cy="160" r="5" fill="#ef4444" opacity="0.85"/>
-          <rect x="304" y="162" width="5" height="16" fill="#4a6a8a"/>
-          <circle cx="306" cy="160" r="5" fill="#f59e0b" opacity="0.9"/>
-          <rect x="348" y="162" width="5" height="16" fill="#4a6a8a"/>
-          <circle cx="350" cy="160" r="5" fill="#22c55e" opacity="0.85"/>
-          <!-- Автомобили на главной дороге -->
-          <rect x="30" y="179" width="26" height="13" fill="#d4dde8" rx="2"/>
-          <rect x="64" y="179" width="26" height="13" fill="#2f80c2" rx="2"/>
-          <rect x="200" y="179" width="26" height="13" fill="#d4dde8" rx="2"/>
-          <rect x="240" y="179" width="26" height="13" fill="#2f80c2" rx="2" opacity="0.8"/>
-          <rect x="380" y="179" width="26" height="13" fill="#d4dde8" rx="2"/>
-          <rect x="420" y="179" width="26" height="13" fill="#2f80c2" rx="2"/>
-          <!-- Очередь на встречной -->
-          <rect x="370" y="203" width="26" height="13" fill="#d4dde8" rx="2"/>
-          <rect x="330" y="203" width="26" height="13" fill="#2f80c2" rx="2" opacity="0.7"/>
-          <rect x="175" y="203" width="26" height="13" fill="#d4dde8" rx="2"/>
-          <!-- Авто на выезде из ЖК -->
-          <rect x="112" y="140" width="14" height="24" fill="#2f80c2" rx="2"/>
-          <rect x="112" y="110" width="14" height="24" fill="#d4dde8" rx="2" opacity="0.6"/>
-          <rect x="312" y="120" width="14" height="24" fill="#d4dde8" rx="2"/>
-          <!-- Пешеходный переход -->
-          <rect x="96" y="175" width="5" height="4" fill="#d4dde8" opacity="0.3"/>
-          <rect x="96" y="181" width="5" height="4" fill="#d4dde8" opacity="0.3"/>
-          <rect x="96" y="187" width="5" height="4" fill="#d4dde8" opacity="0.3"/>
-          <rect x="96" y="193" width="5" height="4" fill="#d4dde8" opacity="0.3"/>
-          <!-- Метрика -->
-          <rect x="16" y="255" width="200" height="74" fill="#0f1c2e" rx="4" opacity="0.8"/>
-          <text x="30" y="278" font-size="9" fill="#8a9bb0" font-family="sans-serif">Объект ввода</text>
-          <text x="30" y="294" font-size="11" fill="#d4dde8" font-family="sans-serif" font-weight="600">4 500 квартир</text>
-          <text x="30" y="312" font-size="9" fill="#8a9bb0" font-family="sans-serif">Пиковая нагрузка</text>
-          <text x="30" y="325" font-size="11" fill="#2f80c2" font-family="sans-serif" font-weight="700">−38% задержки</text>
-        </svg>
+      <div class="case-video">
+        <iframe
+          src="about:blank"
+          frameborder="0"
+          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+        <div class="case-video-placeholder">Видео будет добавлено</div>
       </div>
       <div class="case-body">
         <div class="case-meta"><span>2025</span> · Застройщик · Москва</div>
@@ -1230,74 +1173,14 @@
 
     <!-- Кейс 2 -->
     <div class="case-item">
-      <div class="case-svg">
-        <svg viewBox="0 0 460 345" xmlns="http://www.w3.org/2000/svg">
-          <rect width="460" height="345" fill="#0a1422"/>
-          <!-- Горизонтальная дорога -->
-          <rect x="0" y="148" width="460" height="50" fill="#253a55"/>
-          <!-- Вертикальная дорога -->
-          <rect x="205" y="0" width="50" height="345" fill="#253a55"/>
-          <!-- Разметка -->
-          <line x1="0" y1="173" x2="194" y2="173" stroke="#3d5a7a" stroke-width="1.5" stroke-dasharray="18,10"/>
-          <line x1="266" y1="173" x2="460" y2="173" stroke="#3d5a7a" stroke-width="1.5" stroke-dasharray="18,10"/>
-          <line x1="230" y1="0" x2="230" y2="136" stroke="#3d5a7a" stroke-width="1.5" stroke-dasharray="18,10"/>
-          <line x1="230" y1="210" x2="230" y2="345" stroke="#3d5a7a" stroke-width="1.5" stroke-dasharray="18,10"/>
-          <!-- Стоп-линии -->
-          <line x1="194" y1="148" x2="194" y2="198" stroke="#d4dde8" stroke-width="2" opacity="0.5"/>
-          <line x1="266" y1="148" x2="266" y2="198" stroke="#d4dde8" stroke-width="2" opacity="0.5"/>
-          <line x1="205" y1="148" x2="255" y2="148" stroke="#d4dde8" stroke-width="2" opacity="0.5"/>
-          <line x1="205" y1="198" x2="255" y2="198" stroke="#d4dde8" stroke-width="2" opacity="0.5"/>
-          <!-- Пешеходные переходы -->
-          <rect x="196" y="148" width="5" height="4" fill="#d4dde8" opacity="0.28"/>
-          <rect x="196" y="155" width="5" height="4" fill="#d4dde8" opacity="0.28"/>
-          <rect x="196" y="162" width="5" height="4" fill="#d4dde8" opacity="0.28"/>
-          <rect x="196" y="169" width="5" height="4" fill="#d4dde8" opacity="0.28"/>
-          <rect x="196" y="176" width="5" height="4" fill="#d4dde8" opacity="0.28"/>
-          <rect x="196" y="183" width="5" height="4" fill="#d4dde8" opacity="0.28"/>
-          <rect x="196" y="190" width="5" height="4" fill="#d4dde8" opacity="0.28"/>
-          <rect x="259" y="148" width="5" height="4" fill="#d4dde8" opacity="0.28"/>
-          <rect x="259" y="155" width="5" height="4" fill="#d4dde8" opacity="0.28"/>
-          <rect x="259" y="162" width="5" height="4" fill="#d4dde8" opacity="0.28"/>
-          <rect x="259" y="169" width="5" height="4" fill="#d4dde8" opacity="0.28"/>
-          <rect x="259" y="176" width="5" height="4" fill="#d4dde8" opacity="0.28"/>
-          <rect x="259" y="183" width="5" height="4" fill="#d4dde8" opacity="0.28"/>
-          <rect x="259" y="190" width="5" height="4" fill="#d4dde8" opacity="0.28"/>
-          <!-- Светофоры -->
-          <rect x="190" y="135" width="5" height="14" fill="#4a6a8a"/>
-          <circle cx="192" cy="134" r="5" fill="#ef4444" opacity="0.9"/>
-          <circle cx="192" cy="126" r="3.5" fill="#4a6a8a" opacity="0.4"/>
-          <circle cx="192" cy="119" r="3.5" fill="#4a6a8a" opacity="0.4"/>
-          <rect x="265" y="135" width="5" height="14" fill="#4a6a8a"/>
-          <circle cx="267" cy="134" r="5" fill="#22c55e" opacity="0.9"/>
-          <circle cx="267" cy="126" r="3.5" fill="#4a6a8a" opacity="0.4"/>
-          <circle cx="267" cy="119" r="3.5" fill="#4a6a8a" opacity="0.4"/>
-          <rect x="190" y="200" width="5" height="14" fill="#4a6a8a"/>
-          <circle cx="192" cy="215" r="5" fill="#22c55e" opacity="0.9"/>
-          <rect x="265" y="200" width="5" height="14" fill="#4a6a8a"/>
-          <circle cx="267" cy="215" r="5" fill="#ef4444" opacity="0.9"/>
-          <!-- Очередь слева (красный) -->
-          <rect x="130" y="152" width="28" height="13" fill="#2f80c2" rx="2"/>
-          <rect x="96" y="152" width="28" height="13" fill="#2f80c2" rx="2" opacity="0.75"/>
-          <rect x="62" y="152" width="28" height="13" fill="#d4dde8" rx="2" opacity="0.6"/>
-          <rect x="28" y="152" width="28" height="13" fill="#d4dde8" rx="2" opacity="0.4"/>
-          <!-- Движение справа (зелёный) -->
-          <rect x="310" y="160" width="28" height="13" fill="#d4dde8" rx="2"/>
-          <rect x="370" y="160" width="28" height="13" fill="#2f80c2" rx="2" opacity="0.8"/>
-          <rect x="420" y="160" width="28" height="13" fill="#d4dde8" rx="2" opacity="0.6"/>
-          <!-- Очередь сверху -->
-          <rect x="209" y="96" width="13" height="26" fill="#d4dde8" rx="2"/>
-          <rect x="209" y="64" width="13" height="26" fill="#2f80c2" rx="2" opacity="0.7"/>
-          <rect x="209" y="32" width="13" height="26" fill="#d4dde8" rx="2" opacity="0.5"/>
-          <!-- Движение снизу -->
-          <rect x="228" y="240" width="13" height="26" fill="#d4dde8" rx="2"/>
-          <rect x="228" y="278" width="13" height="26" fill="#2f80c2" rx="2" opacity="0.75"/>
-          <!-- Сценарии — плашка -->
-          <rect x="16" y="260" width="170" height="70" fill="#0f1c2e" rx="4" opacity="0.9"/>
-          <text x="28" y="280" font-size="8" fill="#8a9bb0" font-family="sans-serif">Анализируемые сценарии</text>
-          <text x="28" y="296" font-size="10" fill="#d4dde8" font-family="sans-serif" font-weight="600">1 светофор  2 кольцо</text>
-          <text x="28" y="312" font-size="10" fill="#d4dde8" font-family="sans-serif" font-weight="600">3 развязка  4 ОТ</text>
-          <text x="28" y="325" font-size="8" fill="#2f80c2" font-family="sans-serif">Принят сценарий 4</text>
-        </svg>
+      <div class="case-video">
+        <iframe
+          src="about:blank"
+          frameborder="0"
+          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+        <div class="case-video-placeholder">Видео будет добавлено</div>
       </div>
       <div class="case-body">
         <div class="case-meta"><span>2024</span> · Администрация города · Казань</div>
@@ -1327,62 +1210,14 @@
 
     <!-- Кейс 3 -->
     <div class="case-item">
-      <div class="case-svg">
-        <svg viewBox="0 0 460 345" xmlns="http://www.w3.org/2000/svg">
-          <rect width="460" height="345" fill="#0a1422"/>
-          <!-- Забор периметра -->
-          <rect x="130" y="40" width="300" height="240" fill="none" stroke="#253a55" stroke-width="2"/>
-          <!-- Внутренняя зона -->
-          <rect x="132" y="42" width="296" height="236" fill="#0d1929"/>
-          <!-- Дока / погрузка -->
-          <rect x="160" y="100" width="200" height="80" fill="#162336" rx="3"/>
-          <text x="260" y="148" font-size="9" fill="#8a9bb0" text-anchor="middle" font-family="sans-serif" font-weight="600">СКЛАД / ПОГРУЗКА</text>
-          <!-- Доковые ворота -->
-          <rect x="170" y="178" width="18" height="8" fill="#253a55" rx="1"/>
-          <rect x="196" y="178" width="18" height="8" fill="#253a55" rx="1"/>
-          <rect x="222" y="178" width="18" height="8" fill="#2f80c2" rx="1" opacity="0.6"/>
-          <rect x="248" y="178" width="18" height="8" fill="#253a55" rx="1"/>
-          <rect x="274" y="178" width="18" height="8" fill="#253a55" rx="1"/>
-          <rect x="300" y="178" width="18" height="8" fill="#2f80c2" rx="1" opacity="0.6"/>
-          <!-- Внутренняя дорога -->
-          <rect x="132" y="192" width="296" height="34" fill="#253a55"/>
-          <line x1="132" y1="209" x2="428" y2="209" stroke="#3d5a7a" stroke-width="1" stroke-dasharray="14,8"/>
-          <!-- Грузовые машины на внутренней дороге -->
-          <rect x="160" y="196" width="38" height="18" fill="#2f80c2" rx="2"/>
-          <rect x="206" y="196" width="38" height="18" fill="#d4dde8" rx="2"/>
-          <rect x="340" y="196" width="38" height="18" fill="#d4dde8" rx="2"/>
-          <rect x="384" y="196" width="38" height="18" fill="#2f80c2" rx="2" opacity="0.7"/>
-          <!-- Парковка легковых -->
-          <rect x="140" y="240" width="100" height="30" fill="#112030" rx="2"/>
-          <rect x="144" y="244" width="20" height="18" fill="#1e3352" rx="2"/>
-          <rect x="168" y="244" width="20" height="18" fill="#253a55" rx="2"/>
-          <rect x="192" y="244" width="20" height="18" fill="#1e3352" rx="2"/>
-          <rect x="216" y="244" width="14" height="18" fill="#2f80c2" rx="2" opacity="0.5"/>
-          <!-- КПП и въезд -->
-          <rect x="130" y="192" width="0" height="34" fill="#253a55"/>
-          <rect x="96" y="198" width="34" height="22" fill="#253a55"/>
-          <line x1="96" y1="209" x2="130" y2="209" stroke="#3d5a7a" stroke-width="1" stroke-dasharray="10,6"/>
-          <!-- Шлагбаум -->
-          <rect x="118" y="196" width="3" height="16" fill="#4a6a8a"/>
-          <rect x="121" y="198" width="24" height="3" fill="#ef4444" opacity="0.8"/>
-          <!-- КПП здание -->
-          <rect x="96" y="188" width="20" height="12" fill="#162336" rx="2"/>
-          <text x="106" y="198" font-size="7" fill="#8a9bb0" text-anchor="middle" font-family="sans-serif">КПП</text>
-          <!-- Подъезная дорога (слева) -->
-          <rect x="0" y="198" width="96" height="22" fill="#253a55"/>
-          <line x1="0" y1="209" x2="96" y2="209" stroke="#3d5a7a" stroke-width="1.5" stroke-dasharray="14,8"/>
-          <!-- Фуры в очереди -->
-          <rect x="18" y="200" width="38" height="18" fill="#2f80c2" rx="2"/>
-          <rect x="60" y="200" width="34" height="18" fill="#d4dde8" rx="2"/>
-          <!-- Стрелки направления -->
-          <text x="38" y="194" font-size="10" fill="#2f80c2" text-anchor="middle" font-family="sans-serif">→</text>
-          <!-- Метрика -->
-          <rect x="300" y="254" width="118" height="70" fill="#0f1c2e" rx="4" opacity="0.9"/>
-          <text x="316" y="274" font-size="8" fill="#8a9bb0" font-family="sans-serif">Суточный трафик</text>
-          <text x="316" y="290" font-size="11" fill="#d4dde8" font-family="sans-serif" font-weight="700">450 фур</text>
-          <text x="316" y="308" font-size="8" fill="#8a9bb0" font-family="sans-serif">Замечания экспертизы</text>
-          <text x="316" y="322" font-size="11" fill="#22c55e" font-family="sans-serif" font-weight="700">0</text>
-        </svg>
+      <div class="case-video">
+        <iframe
+          src="about:blank"
+          frameborder="0"
+          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+        <div class="case-video-placeholder">Видео будет добавлено</div>
       </div>
       <div class="case-body">
         <div class="case-meta"><span>2024</span> · Логистика · Екатеринбург</div>
