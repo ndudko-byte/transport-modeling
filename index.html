@@ -690,25 +690,63 @@
 
     .chat-close:hover { opacity: 1; }
 
-    .chat-body { padding: 20px 18px 22px; }
+    .chat-body { padding: 16px 16px 18px; display: flex; flex-direction: column; gap: 10px; }
 
     .chat-msg {
       background: var(--surface);
-      border-radius: 8px;
-      padding: 12px 14px;
-      font-size: 0.88rem;
+      border-radius: 0 10px 10px 10px;
+      padding: 11px 14px;
+      font-size: 0.85rem;
       color: var(--text-dim);
-      margin-bottom: 14px;
-      line-height: 1.5;
+      line-height: 1.55;
+      max-width: 90%;
     }
 
-    .chat-phone {
-      display: block;
-      text-align: center;
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--accent);
-      text-decoration: none;
+    .chat-form { display: flex; flex-direction: column; gap: 8px; }
+
+    .chat-form input,
+    .chat-form textarea {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 12px;
+      font-size: 0.85rem;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      transition: border-color .15s;
+      resize: none;
+    }
+
+    .chat-form input:focus,
+    .chat-form textarea:focus { border-color: var(--accent); }
+
+    .chat-form textarea { min-height: 70px; }
+
+    .chat-send {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    .chat-send:hover { background: var(--accent2); }
+    .chat-send:disabled { opacity: .6; cursor: default; }
+
+    .chat-thanks {
+      background: var(--surface);
+      border-radius: 0 10px 10px 10px;
+      padding: 11px 14px;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.55;
+      max-width: 90%;
+      display: none;
     }
 
     /* ── MODAL ── */
@@ -1805,8 +1843,14 @@
     <button class="chat-close" onclick="toggleChat()">&#x2715;</button>
   </div>
   <div class="chat-body">
-    <div class="chat-msg">Чат в разработке. Свяжитесь с нами по телефону — ответим на любые вопросы.</div>
-    <a class="chat-phone" href="tel:+73812955253">+7 (3812) 95-52-53</a>
+    <div class="chat-msg">Здравствуйте! Напишите ваш вопрос — ответим в течение 2 часов в рабочее время.</div>
+    <form class="chat-form" id="chat-form" onsubmit="sendChatQuestion(event)">
+      <textarea name="question" placeholder="Ваш вопрос..." required></textarea>
+      <input type="tel" name="phone" placeholder="Телефон *" required>
+      <input type="email" name="email" placeholder="Email *" required>
+      <button class="chat-send" type="submit" id="chat-send-btn">Отправить</button>
+    </form>
+    <div class="chat-thanks" id="chat-thanks">Спасибо! Мы получили ваш вопрос и свяжемся с вами в течение 2 часов.</div>
   </div>
 </div>
 
@@ -1876,6 +1920,31 @@
 
   function toggleChat() {
     document.getElementById('chat-popup').classList.toggle('open');
+  }
+
+  async function sendChatQuestion(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn  = document.getElementById('chat-send-btn');
+    btn.disabled = true;
+    btn.textContent = 'Отправляем...';
+
+    const data = new FormData(form);
+
+    try {
+      const res  = await fetch('/transport/chat.php', { method: 'POST', body: data });
+      const json = await res.json();
+      if (json.ok) {
+        form.style.display = 'none';
+        document.getElementById('chat-thanks').style.display = 'block';
+      } else {
+        throw new Error();
+      }
+    } catch {
+      alert('Не удалось отправить вопрос. Позвоните нам: +7 (3812) 95-52-53');
+      btn.disabled = false;
+      btn.textContent = 'Отправить';
+    }
   }
 </script>
 </body>
