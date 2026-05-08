@@ -103,6 +103,25 @@
 
     .nav-cta:hover { background: #1a6aad; transform: translateY(-1px); }
 
+    .nav-phone {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      white-space: nowrap;
+      opacity: .85;
+      transition: opacity .2s;
+    }
+
+    .nav-phone:hover { opacity: 1; }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+
     .burger {
       display: none;
       flex-direction: column;
@@ -1201,7 +1220,7 @@
     @media (max-width: 660px) {
       header { padding: 0 24px; }
       nav { display: none; }
-      .nav-cta { display: none; }
+      .nav-actions { display: none; }
       nav.open {
         display: flex;
         flex-direction: column;
@@ -1252,7 +1271,10 @@
     <a href="#team">Команда</a>
     <a href="#contact">Контакты</a>
   </nav>
-  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Оставить заявку</button>
+  <div class="nav-actions">
+    <a class="nav-phone" href="tel:+73812955253">+7 (3812) 95-52-53</a>
+    <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Оставить заявку</button>
+  </div>
   <div class="burger" id="burger" aria-label="Меню">
     <span></span><span></span><span></span>
   </div>
@@ -1866,9 +1888,7 @@
 <!-- ═══════════ FOOTER ═══════════ -->
 <footer>
   <p>&copy; 2025 Автодорпроект</p>
-  <div class="footer-links">
-    <a href="tel:+73812955253">+7 (3812) 95-52-53</a>
-  </div>
+  <div class="footer-links"></div>
 </footer>
 
 <!-- ═══════════ CHAT FAB ═══════════ -->
