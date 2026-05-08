@@ -46,6 +46,12 @@
     }
 
     .logo {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .logo strong {
       font-size: 0.9rem;
       font-weight: 700;
       letter-spacing: 0.12em;
@@ -53,7 +59,13 @@
       color: #fff;
     }
 
-    .logo span { color: var(--accent); }
+    .logo span {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
 
     nav { display: flex; gap: 32px; }
 
@@ -1226,7 +1238,10 @@
 
 <!-- ═══════════ HEADER ═══════════ -->
 <header>
-  <div class="logo">Автодорпроект <span>· Транспортное моделирование</span></div>
+  <div class="logo">
+    <strong>Автодорпроект</strong>
+    <span>Транспортное моделирование</span>
+  </div>
   <nav id="main-nav">
     <a href="#services">Услуги</a>
     <a href="#projects">Кейсы</a>
