@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Проектирование СПВК на км 717 трассы А-360 Лена — Якутия | Автодорпроект</title>
+  <meta name="description" content="Проектирование стационарного пункта весогабаритного контроля на федеральной трассе А-360 «Лена» в Якутии: 2 полосы автоматического контроля до 140 км/ч, 3D-модель, презентационный видеоролик. Заказчик — ФКУ Упрдор «Лена»." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0f1c2e;
+      --surface:  #162336;
+      --card:     #1c2e45;
+      --accent:   #2f80c2;
+      --text:     #d4dde8;
+      --text-dim: #8a9bb0;
+      --border:   #253a55;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      border-bottom: 1px solid rgba(37,58,85,.6);
+      background: rgba(15,28,46,.92);
+      backdrop-filter: blur(12px);
+    }
+    .logo { font-size: 0.9rem; font-weight: 700; color: #fff; text-decoration: none; letter-spacing: 0.04em; }
+    .back-link {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--text-dim); font-size: 0.85rem; text-decoration: none;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .back-link:hover { color: #fff; }
+
+    /* ── MAIN ── */
+    main { max-width: 860px; margin: 0 auto; padding: 120px 48px 80px; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      font-size: 0.78rem; color: var(--text-dim);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .breadcrumb a { color: var(--text-dim); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { margin: 0 8px; }
+
+    /* ── HERO ── */
+    .case-label {
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+    h1 {
+      font-size: 2.2rem; font-weight: 700;
+      color: #fff; line-height: 1.25;
+      margin-bottom: 24px;
+    }
+    .case-meta-row {
+      display: flex; flex-wrap: wrap; gap: 24px;
+      padding: 20px 0; border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 56px;
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .meta-label { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+    .meta-value { font-size: 0.92rem; color: #fff; font-weight: 600; }
+
+    /* ── VIDEO ── */
+    .case-video-wrap {
+      position: relative; width: 100%;
+      padding-bottom: 56.25%;
+      background: var(--card);
+      margin-bottom: 56px;
+    }
+    .case-video-wrap iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; border: 0;
+    }
+    .video-caption {
+      margin-top: 10px; font-size: 0.8rem;
+      color: var(--text-dim); text-align: center;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── KPI BAR ── */
+    .kpi-bar {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border);
+      margin-bottom: 56px;
+    }
+    .kpi-cell { background: var(--card); padding: 20px 24px; }
+    .kpi-val { font-size: 1.8rem; font-weight: 700; color: #fff; line-height: 1; }
+    .kpi-val span { color: var(--accent); }
+    .kpi-lbl {
+      font-size: 0.72rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-top: 6px;
+    }
+
+    /* ── SECTIONS ── */
+    .report-section { margin-bottom: 52px; }
+    .report-section h2 {
+      font-size: 1.15rem; font-weight: 700; color: #fff;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .report-section p { color: var(--text); margin-bottom: 14px; }
+    .report-section ul { padding-left: 0; list-style: none; }
+    .report-section ul li {
+      padding: 8px 0 8px 20px;
+      border-bottom: 1px solid rgba(37,58,85,.4);
+      position: relative; color: var(--text);
+    }
+    .report-section ul li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--accent);
+    }
+
+    /* ── СОСТАВ ОБЪЕКТА — 2 колонки ── */
+    .composition-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 20px;
+    }
+    .comp-item {
+      background: var(--card);
+      padding: 14px 18px;
+      font-size: 0.88rem; color: var(--text);
+    }
+    .comp-item strong { color: #fff; display: block; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+
+    /* ── CTA ── */
+    .case-cta {
+      margin-top: 64px; padding: 40px;
+      background: var(--surface); border: 1px solid var(--border);
+      text-align: center;
+    }
+    .case-cta h2 { font-size: 1.3rem; color: #fff; margin-bottom: 12px; }
+    .case-cta p { color: var(--text-dim); margin-bottom: 28px; }
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--accent); color: #fff;
+      padding: 14px 32px; border-radius: 50px;
+      font-size: 0.9rem; font-weight: 700;
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: background .2s;
+    }
+    .btn-cta:hover { background: #1a5f96; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.82rem; color: var(--text-dim);
+    }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    .footer-links { display: flex; gap: 24px; }
+
+    @media (max-width: 680px) {
+      header { padding: 0 20px; }
+      main { padding: 100px 20px 60px; }
+      h1 { font-size: 1.6rem; }
+      .kpi-bar { grid-template-columns: 1fr; }
+      .composition-grid { grid-template-columns: 1fr; }
+      .case-meta-row { gap: 16px; }
+      footer { flex-direction: column; gap: 12px; padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../../" class="logo">Автодорпроект</a>
+  <a href="../../#projects" class="back-link">← Все кейсы</a>
+</header>
+
+<main>
+  <div class="breadcrumb">
+    <a href="../../">Главная</a>
+    <span>/</span>
+    <a href="../../#projects">Кейсы</a>
+    <span>/</span>
+    СПВК А-360 Лена
+  </div>
+
+  <div class="case-label">Проектирование · 3D-моделирование · PTV Vissim</div>
+  <h1>Стационарный пункт весогабаритного контроля на трассе А-360 «Лена»</h1>
+
+  <div class="case-meta-row">
+    <div class="meta-item">
+      <span class="meta-label">Год</span>
+      <span class="meta-value">2011</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Заказчик</span>
+      <span class="meta-value">ФКУ Упрдор «Лена»</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Государственный контракт</span>
+      <span class="meta-value">№89-11 от 07.11.2011</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Расположение</span>
+      <span class="meta-value">км 717, Республика Саха (Якутия)</span>
+    </div>
+  </div>
+
+  <!-- Видео появится когда будет готово на ВК -->
+  <!-- TODO: раскомментировать iframe когда видео будет загружено
+  <div style="margin-bottom:16px;">
+    <div class="case-video-wrap">
+      <iframe src="https://vk.com/video_ext.php?oid=-206317138&id=456239019&hd=2"
+        allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <p class="video-caption">Презентационный видеоролик — имитационная 3D-модель работы СПВК</p>
+  </div>
+  -->
+
+  <div class="kpi-bar">
+    <div class="kpi-cell">
+      <div class="kpi-val">1 500 <span style="font-size:1.2rem">м</span></div>
+      <div class="kpi-lbl">протяжённость участка</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-val">2</div>
+      <div class="kpi-lbl">полосы контроля</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-val">140 <span style="font-size:1.2rem">км/ч</span></div>
+      <div class="kpi-lbl">скорость взвешивания</div>
+    </div>
+  </div>
+
+  <div class="report-section">
+    <h2>Задача</h2>
+    <p>На 717 км федеральной трассы А-360 «Лена» Невер — Якутск в Республике Саха (Якутия) отсутствовал весогабаритный контроль грузового транспорта. ФКУ Упрдор «Лена» заказало проектирование стационарного СПВК с полным комплектом инфраструктуры и презентационными материалами для согласования проекта.</p>
+    <p>Особую сложность создавали условия Крайнего Севера: вечная мерзлота в основании, сейсмичность района, экстремальный температурный диапазон от −55°C зимой до +38°C летом.</p>
+  </div>
+
+  <div class="report-section">
+    <h2>Состав объекта</h2>
+    <p>Стационарный СПВК спроектирован как комплекс объектов капитального строительства и линейный объект на участке дороги км 718+080 — км 718+909.</p>
+    <div class="composition-grid">
+      <div class="comp-item">
+        <strong>Динамическое взвешивание</strong>
+        Весоизмерительные модули MiM® (Betamont, Словакия) — взвешивание в движении без снижения скорости, до 140 км/ч
+      </div>
+      <div class="comp-item">
+        <strong>Габаритный контроль</strong>
+        П-образные рамы с датчиками контроля габаритов ТС в обоих направлениях движения
+      </div>
+      <div class="comp-item">
+        <strong>Переменные дорожные знаки</strong>
+        VMS-знаки информируют водителя о превышении параметров и необходимости съезда на дополнительную полосу
+      </div>
+      <div class="comp-item">
+        <strong>Контрольные весы и идентификация</strong>
+        Контрольное взвешивание на скорости до 5 км/ч + ANPR-камеры распознавания номеров (4 точки)
+      </div>
+      <div class="comp-item">
+        <strong>Здание СПВК</strong>
+        Двухэтажное здание 14×7.5 м: операторная, помещение ГИБДД, зона отдыха на 3 человека, гараж
+      </div>
+      <div class="comp-item">
+        <strong>Инфраструктура</strong>
+        Резервная ДЭС, резервуары пожарного запаса воды, стоянки для 40 грузовых + 3 негабаритных ТС, наружное освещение, видеоконтроль
+      </div>
+    </div>
+  </div>
+
+  <div class="report-section">
+    <h2>Алгоритм работы СПВК</h2>
+    <ul>
+      <li>Транспортное средство проходит через весоизмерительный модуль и рамку габаритного контроля без снижения скорости</li>
+      <li>Данные о нагрузке на каждую ось и габаритах автоматически передаются на АРМ оператора в здание СПВК</li>
+      <li>При превышении нормативных параметров переменный дорожный знак (VMS) указывает водителю перестроиться на дополнительную полосу</li>
+      <li>На дополнительной полосе выполняется контрольное взвешивание в движении (до 5 км/ч) и при необходимости — лазерное измерение габаритов</li>
+      <li>При подтверждении превышения более чем на 2% транспортное средство направляется на стоянку задержанных ТС до предъявления специального разрешения</li>
+    </ul>
+  </div>
+
+  <div class="report-section">
+    <h2>Особенности проектирования</h2>
+    <ul>
+      <li>Фундамент здания СПВК — монолитная железобетонная плита по II принципу использования вечномёрзлых грунтов (СНиП 2.02.04-88)</li>
+      <li>Конструкция здания — металлический каркас с сэндвич-панелями 200 мм, тройное остекление из ПВХ для работы при −55°C</li>
+      <li>Электроснабжение I категории: основной ввод 0,4 кВ от ТП + резервная ДЭС 2-й степени автоматизации</li>
+      <li>Автономное водоснабжение (привозная вода, накопительный бак 1,3 м³), электрический котёл для отопления</li>
+      <li>Участок располагается на склоне горы с перепадом высот 10 м — разработана детальная схема отвода паводковых вод и вертикальной планировки</li>
+      <li>Земельный участок 7,84 га переведён из земель лесного фонда в категорию «земли населённых пунктов»</li>
+    </ul>
+  </div>
+
+  <div class="report-section">
+    <h2>3D-моделирование и визуализация</h2>
+    <p>Помимо проектной документации, для ФКУ Упрдор «Лена» была разработана имитационная 3D-модель работы СПВК в программном комплексе PTV Vissim. Модель демонстрировала движение грузового транспорта через пункт контроля, алгоритм автоматического взвешивания и действия инспекторов.</p>
+    <p>На основе модели создан презентационный видеоролик для обоснования проекта и согласования с заказчиком и надзорными органами.</p>
+  </div>
+
+  <div class="case-cta">
+    <h2>Нужен аналогичный проект?</h2>
+    <p>Выполним проектирование объектов весогабаритного контроля, транспортное моделирование и разработку презентационных материалов для любого региона России.</p>
+    <a href="../../#contact" class="btn-cta">Обсудить проект</a>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2025 Автодорпроект</p>
+  <div class="footer-links">
+    <a href="mailto:info@avtodor.pro">info@avtodor.pro</a>
+    <a href="tel:+73812955253">+7 (3812) 95-52-53</a>
+  </div>
+</footer>
+
+</body>
+</html>
