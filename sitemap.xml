@@ -8,4 +8,32 @@
     <priority>1.0</priority>
   </url>
 
+  <url>
+    <loc>https://avtodor.pro/transport/cases/modelirovanie-perekrestkov-omsk/</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://avtodor.pro/transport/cases/spvk-a360/</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://avtodor.pro/transport/cases/transportnoe-vozdeystvie-zhk-omsk/</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://avtodor.pro/transport/cases/ul-stroiteley-kovrov/</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>
