@@ -55,8 +55,6 @@
       font-weight: 700;
       text-transform: uppercase;
       color: #fff;
-      text-align: justify;
-      text-align-last: justify;
     }
 
     .logo span {
@@ -1958,6 +1956,15 @@
       btn.textContent = 'Отправить заявку';
     }
   }
+
+  (function () {
+    const strong = document.querySelector('.logo strong');
+    const span   = document.querySelector('.logo span');
+    if (!strong || !span) return;
+    const gap = span.offsetWidth - strong.offsetWidth;
+    const chars = strong.textContent.trim().length - 1;
+    if (chars > 0) strong.style.letterSpacing = (gap / chars) + 'px';
+  })();
 
   function toggleChat() {
     document.getElementById('chat-popup').classList.toggle('open');
