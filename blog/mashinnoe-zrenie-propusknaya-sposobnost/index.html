@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Машинное зрение для управления транспортными потоками — Автодорпроект</title>
+  <meta name="description" content="Инженер Автодорпроекта Максим Рюмкин опубликовал научную статью в Вестнике СибАДИ: как машинное зрение и ИТС помогают повысить пропускную способность городских дорог без реконструкции." />
+  <link rel="canonical" href="https://avtodor.pro/transport/blog/mashinnoe-zrenie-propusknaya-sposobnost/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://avtodor.pro/transport/blog/mashinnoe-zrenie-propusknaya-sposobnost/" />
+  <meta property="og:title" content="Машинное зрение для управления транспортными потоками — Автодорпроект" />
+  <meta property="og:description" content="Инженер Максим Рюмкин разработал концепцию повышения пропускной способности городских дорог на основе машинного зрения. Результаты опубликованы в Вестнике СибАДИ." />
+  <meta property="og:image" content="https://avtodor.pro/transport/source/pics/og-banner.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Автодорпроект" />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Машинное зрение для управления транспортными потоками: концепция и моделирование",
+    "description": "Научная статья инженера Автодорпроекта Максима Рюмкина о повышении пропускной способности городских дорог с помощью машинного зрения и ИТС. Опубликована в Вестнике СибАДИ, 2026.",
+    "url": "https://avtodor.pro/transport/blog/mashinnoe-zrenie-propusknaya-sposobnost/",
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://avtodor.pro/#organization",
+      "name": "Автодорпроект"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Максим Рюмкин",
+      "jobTitle": "Инженер-проектировщик автомобильных дорог",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Автодорпроект"
+      }
+    },
+    "datePublished": "2026-05-09",
+    "dateModified": "2026-05-09",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://avtodor.pro/transport/blog/mashinnoe-zrenie-propusknaya-sposobnost/"
+    }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0f1c2e;
+      --surface:  #162336;
+      --card:     #1c2e45;
+      --accent:   #2f80c2;
+      --accent2:  #1a5f96;
+      --text:     #d4dde8;
+      --text-dim: #8a9bb0;
+      --border:   #253a55;
+      --radius:   10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      border-bottom: 1px solid rgba(37,58,85,.6);
+      background: rgba(15,28,46,.92);
+      backdrop-filter: blur(12px);
+    }
+    .logo { font-size: 0.9rem; font-weight: 700; color: #fff; text-decoration: none; letter-spacing: 0.04em; text-transform: uppercase; }
+    .back-link {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--text-dim); font-size: 0.85rem; text-decoration: none;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .back-link:hover { color: #fff; }
+
+    /* ── MAIN ── */
+    main { max-width: 760px; margin: 0 auto; padding: 120px 48px 80px; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      font-size: 0.78rem; color: var(--text-dim);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .breadcrumb a { color: var(--text-dim); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { margin: 0 8px; }
+
+    /* ── ARTICLE HEADER ── */
+    .article-label {
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 2.1rem; font-weight: 700;
+      color: #fff; line-height: 1.25;
+      margin-bottom: 24px;
+    }
+
+    .article-meta-row {
+      display: flex; align-items: center; gap: 24px;
+      padding: 16px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+      font-size: 0.82rem; color: var(--text-dim);
+      flex-wrap: wrap;
+    }
+
+    .author-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      padding: 4px 14px 4px 4px;
+    }
+    .author-badge-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700; color: #fff;
+    }
+    .author-badge-name { font-size: 0.82rem; color: var(--text); }
+
+    /* ── ARTICLE BODY ── */
+    .article-body h2 {
+      font-size: 1.15rem; font-weight: 700; color: #fff;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      margin-top: 48px;
+    }
+
+    .article-body h2:first-child { margin-top: 0; }
+
+    .article-body p {
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+
+    .article-body ul, .article-body ol {
+      padding-left: 0; list-style: none;
+      margin-bottom: 18px;
+    }
+
+    .article-body ul li, .article-body ol li {
+      padding: 8px 0 8px 24px;
+      border-bottom: 1px solid rgba(37,58,85,.4);
+      position: relative; color: var(--text);
+      counter-increment: ol-counter;
+    }
+
+    .article-body ul li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--accent);
+    }
+
+    .article-body ol { counter-reset: ol-counter; }
+
+    .article-body ol li::before {
+      content: counter(ol-counter) '.';
+      position: absolute; left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .article-body strong { color: #fff; }
+
+    .infobox {
+      background: var(--card);
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      margin: 32px 0;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+
+    .infobox p { margin-bottom: 0; font-size: 0.92rem; }
+
+    .publication-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 32px 0;
+    }
+
+    .publication-card-label {
+      font-size: 0.72rem; font-weight: 700; color: var(--accent);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .publication-card-title {
+      font-size: 0.98rem; color: #fff; font-weight: 600;
+      margin-bottom: 12px; line-height: 1.4;
+    }
+
+    .publication-card-meta {
+      font-size: 0.8rem; color: var(--text-dim); line-height: 1.6;
+    }
+
+    .publication-card-meta a {
+      color: var(--accent); text-decoration: none;
+    }
+
+    .publication-card-meta a:hover { text-decoration: underline; }
+
+    /* ── AUTHOR BIO ── */
+    .author-bio {
+      margin-top: 56px;
+      padding: 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex; gap: 20px; align-items: flex-start;
+    }
+
+    .author-bio-avatar {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--accent2);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; font-weight: 700; color: #fff;
+    }
+
+    .author-bio-name {
+      font-size: 0.95rem; font-weight: 700; color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .author-bio-title {
+      font-size: 0.8rem; color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .author-bio-text {
+      font-size: 0.85rem; color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    /* ── RELATED ── */
+    .related {
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+
+    .related-label {
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--text-dim); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 20px;
+    }
+
+    .related-links {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+
+    .related-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.95rem;
+      padding: 14px 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color .2s, color .2s;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .related-links a:hover { border-color: var(--accent); color: #fff; }
+    .related-links a::after { content: '→'; color: var(--accent); }
+
+    /* ── CTA ── */
+    .article-cta {
+      margin-top: 64px; padding: 40px;
+      background: var(--surface); border: 1px solid var(--border);
+      text-align: center; border-radius: var(--radius);
+    }
+    .article-cta h2 { font-size: 1.3rem; color: #fff; margin-bottom: 12px; text-transform: none; border: none; padding: 0; margin-top: 0; letter-spacing: 0; }
+    .article-cta p { color: var(--text-dim); margin-bottom: 28px; }
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--accent); color: #fff;
+      padding: 14px 32px; border-radius: 50px;
+      font-size: 0.9rem; font-weight: 700;
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: background .2s;
+    }
+    .btn-cta:hover { background: var(--accent2); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.82rem; color: var(--text-dim);
+    }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    .footer-links { display: flex; gap: 24px; }
+
+    @media (max-width: 680px) {
+      header { padding: 0 20px; }
+      main { padding: 100px 20px 60px; }
+      h1 { font-size: 1.6rem; }
+      footer { flex-direction: column; gap: 12px; padding: 24px 20px; }
+      .article-cta { padding: 28px 20px; }
+      .author-bio { flex-direction: column; }
+      .article-meta-row { gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../../" class="logo">Автодорпроект</a>
+  <a href="../" class="back-link">← Блог</a>
+</header>
+
+<main>
+  <div class="breadcrumb">
+    <a href="../../">Главная</a>
+    <span>/</span>
+    <a href="../">Блог</a>
+    <span>/</span>
+    Машинное зрение и пропускная способность
+  </div>
+
+  <div class="article-label">Научная публикация · ИТС · PTV Vissim</div>
+  <h1>Машинное зрение для управления транспортными потоками: концепция и результаты моделирования</h1>
+
+  <div class="article-meta-row">
+    <span class="author-badge">
+      <span class="author-badge-avatar">МР</span>
+      <span class="author-badge-name">Максим Рюмкин</span>
+    </span>
+    <span>·</span>
+    <span>Февраль 2026</span>
+    <span>·</span>
+    <span>10 мин чтения</span>
+    <span>·</span>
+    <span>Вестник СибАДИ</span>
+  </div>
+
+  <div class="article-body">
+
+    <p>Пробки в час пик — не просто неудобство. Это экономические потери, загрязнение воздуха в жилых кварталах и стресс для десятков тысяч водителей каждый день. Стандартные ответы на эту проблему — расширить дорогу, построить развязку — требуют многомиллионных вложений и многолетней реконструкции. Но существует и другой подход: <strong>перераспределять потоки умнее</strong>, используя данные в реальном времени.</p>
+
+    <p>Именно этому посвящена научная работа инженера-проектировщика нашей компании Максима Рюмкина, опубликованная в начале 2026 года в рецензируемом научном журнале «Вестник СибАДИ». В статье разработана и проверена концепция интеллектуальной транспортной системы на основе машинного зрения для повышения пропускной способности городских дорог.</p>
+
+    <div class="publication-card">
+      <div class="publication-card-label">Научная публикация</div>
+      <div class="publication-card-title">Концепция повышения пропускной способности путём регулирования транспортных потоков на основе машинного зрения</div>
+      <div class="publication-card-meta">
+        Рюмкин М.А., Шнайдер В.А.<br>
+        Вестник СибАДИ. 2026. Том 23, № 1. С. 114–129.<br>
+        DOI: <a href="https://doi.org/10.26518/2071-7296-2026-23-1-114-129" target="_blank" rel="noopener">10.26518/2071-7296-2026-23-1-114-129</a>
+      </div>
+    </div>
+
+    <h2>Почему существующие решения не работают</h2>
+
+    <p>В ходе исследования был проанализирован участок улично-дорожной сети в Центральном районе Омска — зона ул. Интернациональная, Фрунзе, Орджоникидзе, Красный Путь и прилегающих улиц. Это типичный пример городской сети, которая формировалась десятилетиями без учёта нынешнего уровня автомобилизации.</p>
+
+    <p>Полевые обследования проводились в течение месяца в утренний и вечерний час пик. Каждое транспортное средство и каждый пешеход на 20 перекрёстках фиксировались с помощью видеозаписи, данные заносились в полевые журналы по методике ГОСТ 32965–2014.</p>
+
+    <p>Собранные данные были загружены в программный комплекс <strong>PTV Vissim</strong> — созданная микроскопическая модель воспроизводила фактическую ситуацию на дорогах. Вывод оказался однозначным: <strong>с самого начала имитации заторы образовывались на 90% исследуемых перекрёстков</strong>. Корректировка длительности светофорных фаз — популярный и относительно дешёвый инструмент — давала лишь локальный эффект: «распуская» один поток, она провоцировала рост очередей на соседних улицах. «Зелёная волна» оказалась недостаточным ответом на сложившуюся ситуацию.</p>
+
+    <div class="infobox">
+      <p><strong>Ключевой вывод из анализа:</strong> проблема не в конкретном перекрёстке, а в распределении потоков по сети. Точечные решения перекладывают пробку с одного места на другое, не устраняя её причину.</p>
+    </div>
+
+    <h2>Суть концепции: машинное зрение вместо реконструкции</h2>
+
+    <p>Разработанная концепция предлагает <strong>перераспределять транспортные потоки на альтернативный маршрут</strong> в момент образования затора — без строительства новых дорог и без изменения геометрии существующей сети.</p>
+
+    <p>Технически это реализуется через связку трёх элементов:</p>
+
+    <ol>
+      <li><strong>Камеры машинного зрения</strong>, интегрированные с существующими системами фотовидеофиксации на перекрёстках. Они в режиме реального времени считают транспортные средства, проходящие через сечение дороги, и замеряют время их движения до следующего сечения.</li>
+      <li><strong>Алгоритм принятия решений (ИИ)</strong>, который анализирует данные и определяет, когда интенсивность движения достигает порогового значения и пора активировать перенаправление.</li>
+      <li><strong>Переключаемые светодиодные знаки группы 5.15</strong> («Движение по полосам»), установленные над проезжей частью. При активации они меняют назначение полос и указывают водителям альтернативный маршрут.</li>
+    </ol>
+
+    <p>Система может работать в двух режимах: полностью автоматическом (без участия оператора) или полуавтоматическом, где решение о включении принимает диспетчер на основе картины с камер.</p>
+
+    <h2>Результаты моделирования в PTV Vissim</h2>
+
+    <p>Предложенная концепция была смоделирована в PTV Vissim — то же самое цифровое «поле», на котором строилась фактическая модель, теперь обогатилось сценарием с работающей системой перенаправления.</p>
+
+    <p>Сравнение показателей «до» и «после» зафиксировало существенное снижение по ключевым параметрам затора:</p>
+
+    <ul>
+      <li>Время следования транспортных средств через исследуемый участок</li>
+      <li>Максимальная длина очереди на перекрёстках</li>
+      <li>Средняя длина очереди в период час пик</li>
+    </ul>
+
+    <p>Тепловая карта плотности потоков наглядно подтвердила эффективность: зоны концентрации транспорта рассредоточились по сети.</p>
+
+    <p>Особенно важен один конкретный результат: моделирование выявило <strong>оптимальный интервал работы системы — 20 минут</strong>. Этот период достаточен, чтобы «распустить» накопившийся поток и не допустить нарастания затора в другой точке. Слишком короткое время не даёт эффекта, слишком долгое — перегружает альтернативный маршрут.</p>
+
+    <div class="infobox">
+      <p><strong>Главное преимущество подхода:</strong> система использует уже существующую инфраструктуру — камеры, стойки дорожных знаков, светофорные объекты. Капитальных вложений в строительство и реконструкцию не требуется.</p>
+    </div>
+
+    <h2>Почему это важно для застройщиков и городов</h2>
+
+    <p>Математические модели транспортных потоков — это не академический инструмент ради самого исследования. В городских условиях при застройке новых жилых комплексов необходимо оценивать транспортную обеспеченность территории: сколько новых автомобилей добавится в сеть, справится ли прилегающая УДС с этой нагрузкой и какие мероприятия нужны, чтобы не создать новый хронический затор.</p>
+
+    <p>Именно эту задачу решает ОВТД — оценка воздействия на транспортную дорожную инфраструктуру. И именно такие исследования, как данная научная работа, формируют методологическую основу для практических проектных решений.</p>
+
+    <p>Интеллектуальные транспортные системы с машинным зрением сегодня активно внедряются в городах Европы, Японии и Австралии. По данным ERTICO–ITS Europe, адаптивные системы управления светофорами в сочетании с перераспределением потоков способны сократить заторы до 20% без реконструкции дорог. Разработанная концепция встраивается в эту логику и адаптирована к российским условиям и нормативной базе.</p>
+
+    <h2>Что дальше</h2>
+
+    <p>Концепция прошла проверку на уровне имитационного моделирования в PTV Vissim. Следующий шаг — пилотная реализация на реальном участке с привлечением финансирования: государственного, грантового или частного. Детальная проработка потребует участия специалистов в области ИТС, дорожного строительства и систем видеоаналитики.</p>
+
+    <p>Мы продолжаем вести исследования в этом направлении и готовы применять накопленный опыт при разработке транспортных моделей для ваших объектов.</p>
+
+  </div>
+
+  <div class="author-bio">
+    <div class="author-bio-avatar">МР</div>
+    <div>
+      <div class="author-bio-name">Максим Рюмкин</div>
+      <div class="author-bio-title">Инженер-проектировщик автомобильных дорог, Автодорпроект</div>
+      <div class="author-bio-text">Специализируется на транспортном моделировании в PTV Vissim. Автор магистерской диссертации и научных публикаций по теме интеллектуальных транспортных систем и машинного зрения. Участник команды по разработке транспортных моделей в Омске и других регионах России.</div>
+    </div>
+  </div>
+
+  <div class="related">
+    <div class="related-label">Читайте также</div>
+    <div class="related-links">
+      <a href="../ptv-vissim-chto-eto/">Что такое PTV Vissim и зачем он нужен в транспортном проектировании</a>
+      <a href="../transportnoe-modelirovanie-zhk/">Транспортное моделирование для жилых комплексов: когда нужно и что включает</a>
+      <a href="../kak-provesti-ovozt/">Как проводится ОВТД: этапы, сроки и что получает заказчик</a>
+    </div>
+  </div>
+
+  <div class="article-cta">
+    <h2>Нужна транспортная модель для вашего объекта?</h2>
+    <p>Работаем по всей России. Расскажите о задаче — подберём состав работ и назовём сроки.</p>
+    <a href="../../#contact" class="btn-cta">Обсудить проект</a>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2025 Автодорпроект</p>
+  <div class="footer-links">
+    <a href="mailto:info@avtodor.pro">info@avtodor.pro</a>
+    <a href="tel:+73812955253">+7 (3812) 95-52-53</a>
+  </div>
+</footer>
+
+</body>
+</html>
