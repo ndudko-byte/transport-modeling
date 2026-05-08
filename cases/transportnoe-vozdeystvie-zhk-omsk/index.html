@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Оценка транспортного воздействия жилого комплекса на ул. Подгорная, Омск | Автодорпроект</title>
+  <meta name="description" content="Комплексное транспортное моделирование влияния ЖК на 414 машино-мест на прилегающую УДС в Омске. 12 перекрёстков, PTV Vissim, снижение времени в пути на 34%. Заказчик — ООО «Комус»." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0f1c2e;
+      --surface:  #162336;
+      --card:     #1c2e45;
+      --accent:   #2f80c2;
+      --text:     #d4dde8;
+      --text-dim: #8a9bb0;
+      --border:   #253a55;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      border-bottom: 1px solid rgba(37,58,85,.6);
+      background: rgba(15,28,46,.92);
+      backdrop-filter: blur(12px);
+    }
+    .logo { font-size: 0.9rem; font-weight: 700; color: #fff; text-decoration: none; letter-spacing: 0.04em; }
+    .back-link {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--text-dim); font-size: 0.85rem; text-decoration: none;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .back-link:hover { color: #fff; }
+
+    /* ── MAIN ── */
+    main { max-width: 860px; margin: 0 auto; padding: 120px 48px 80px; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      font-size: 0.78rem; color: var(--text-dim);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .breadcrumb a { color: var(--text-dim); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { margin: 0 8px; }
+
+    /* ── HERO ── */
+    .case-label {
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+    h1 {
+      font-size: 2.2rem; font-weight: 700;
+      color: #fff; line-height: 1.25;
+      margin-bottom: 24px;
+    }
+    .case-meta-row {
+      display: flex; flex-wrap: wrap; gap: 24px;
+      padding: 20px 0; border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 56px;
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .meta-label { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+    .meta-value { font-size: 0.92rem; color: #fff; font-weight: 600; }
+
+    /* ── VIDEO ── */
+    .case-video-wrap {
+      position: relative; width: 100%;
+      padding-bottom: 56.25%;
+      background: var(--card);
+      margin-bottom: 56px;
+    }
+    .case-video-wrap iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; border: 0;
+    }
+    .video-caption {
+      margin-top: 10px; font-size: 0.8rem;
+      color: var(--text-dim); text-align: center;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── KPI BAR ── */
+    .kpi-bar {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border);
+      margin-bottom: 56px;
+    }
+    .kpi-cell { background: var(--card); padding: 20px 24px; }
+    .kpi-val { font-size: 1.8rem; font-weight: 700; color: #fff; line-height: 1; }
+    .kpi-val span { color: var(--accent); }
+    .kpi-lbl {
+      font-size: 0.72rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-top: 6px;
+    }
+
+    /* ── SECTIONS ── */
+    .report-section { margin-bottom: 52px; }
+    .report-section h2 {
+      font-size: 1.15rem; font-weight: 700; color: #fff;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .report-section p { color: var(--text); margin-bottom: 14px; }
+    .report-section ul { padding-left: 0; list-style: none; }
+    .report-section ul li {
+      padding: 8px 0 8px 20px;
+      border-bottom: 1px solid rgba(37,58,85,.4);
+      position: relative; color: var(--text);
+    }
+    .report-section ul li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--accent);
+    }
+
+    /* ── СЦЕНАРИИ ── */
+    .scenarios-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border);
+      margin-top: 20px;
+    }
+    .scenario-item {
+      background: var(--card); padding: 20px;
+    }
+    .scenario-num {
+      font-size: 0.72rem; font-weight: 700; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    .scenario-title { font-size: 0.9rem; font-weight: 600; color: #fff; margin-bottom: 8px; }
+    .scenario-desc { font-size: 0.82rem; color: var(--text-dim); }
+
+    /* ── РЕЗУЛЬТАТЫ ── */
+    .results-table {
+      width: 100%; border-collapse: collapse;
+      margin-top: 16px; font-size: 0.88rem;
+    }
+    .results-table th {
+      text-align: left; padding: 10px 14px;
+      background: var(--surface);
+      color: var(--text-dim); font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--border);
+    }
+    .results-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(37,58,85,.4);
+      color: var(--text);
+    }
+    .results-table tr:hover td { background: var(--surface); }
+    .result-positive { color: #4caf80; font-weight: 600; }
+
+    /* ── CTA ── */
+    .case-cta {
+      margin-top: 64px; padding: 40px;
+      background: var(--surface); border: 1px solid var(--border);
+      text-align: center;
+    }
+    .case-cta h2 { font-size: 1.3rem; color: #fff; margin-bottom: 12px; }
+    .case-cta p { color: var(--text-dim); margin-bottom: 28px; }
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--accent); color: #fff;
+      padding: 14px 32px; border-radius: 50px;
+      font-size: 0.9rem; font-weight: 700;
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: background .2s;
+    }
+    .btn-cta:hover { background: #1a5f96; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.82rem; color: var(--text-dim);
+    }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    .footer-links { display: flex; gap: 24px; }
+
+    @media (max-width: 680px) {
+      header { padding: 0 20px; }
+      main { padding: 100px 20px 60px; }
+      h1 { font-size: 1.6rem; }
+      .kpi-bar { grid-template-columns: 1fr; }
+      .scenarios-grid { grid-template-columns: 1fr; }
+      .case-meta-row { gap: 16px; }
+      footer { flex-direction: column; gap: 12px; padding: 24px 20px; }
+      .results-table { font-size: 0.82rem; }
+      .results-table th, .results-table td { padding: 8px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../../" class="logo">Автодорпроект</a>
+  <a href="../../#projects" class="back-link">← Все кейсы</a>
+</header>
+
+<main>
+  <div class="breadcrumb">
+    <a href="../../">Главная</a>
+    <span>/</span>
+    <a href="../../#projects">Кейсы</a>
+    <span>/</span>
+    Транспортное воздействие ЖК, Омск
+  </div>
+
+  <div class="case-label">Оценка транспортного воздействия · PTV Vissim · Жилое строительство</div>
+  <h1>Транспортное воздействие жилого комплекса на ул. Подгорная в Омске</h1>
+
+  <div class="case-meta-row">
+    <div class="meta-item">
+      <span class="meta-label">Год</span>
+      <span class="meta-value">2026</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Заказчик</span>
+      <span class="meta-value">ООО «Комус»</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Город</span>
+      <span class="meta-value">Омск</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Программное обеспечение</span>
+      <span class="meta-value">PTV Vissim</span>
+    </div>
+  </div>
+
+  <div style="margin-bottom:16px;">
+    <div class="case-video-wrap">
+      <iframe
+        src="https://vkvideo.ru/video_ext.php?oid=-206317138&id=456239022&hash=332d2eb888c8a7b6&hd=3"
+        allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <p class="video-caption">Имитационная модель транспортных потоков в районе ул. Подгорная — сравнение фактического и проектного состояния</p>
+  </div>
+
+  <div class="kpi-bar">
+    <div class="kpi-cell">
+      <div class="kpi-val">12</div>
+      <div class="kpi-lbl">перекрёстков</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-val">−<span>34%</span></div>
+      <div class="kpi-lbl">время в пути</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-val">332</div>
+      <div class="kpi-lbl">авт./час добавлено</div>
+    </div>
+  </div>
+
+  <div class="report-section">
+    <h2>Задача</h2>
+    <p>ООО «Комус» планировало строительство жилого комплекса на 414 машино-мест в границах ул. Пушкина — Подгорная — Жукова — Куйбышева. В рамках проекта планировки территории требовалось провести оценку транспортного воздействия объекта на прилегающую улично-дорожную сеть.</p>
+    <p>Необходимо было доказать, что дополнительный трафик от ЖК (332 авт./час в утренний пик) не создаст критической нагрузки на 12 ближайших перекрёстков, и разработать мероприятия для компенсации возможных негативных эффектов.</p>
+  </div>
+
+  <div class="report-section">
+    <h2>Методология</h2>
+    <ul>
+      <li>Видеофиксация транспортных потоков на 12 перекрёстках в утренний (8:00–9:00) и вечерний (17:00–18:00) час-пик</li>
+      <li>Формирование цифровой модели дорожной сети: полосы движения, скоростные режимы, светофорные фазы</li>
+      <li>Параметризация транспортных потоков по данным натурных замеров — ввод интенсивности и состава движения</li>
+      <li>Калибровка и валидация модели — сверка с фактическими показателями заторообразования</li>
+      <li>Моделирование трёх сценариев для оценки эффектов на разных стадиях</li>
+    </ul>
+
+    <div class="scenarios-grid">
+      <div class="scenario-item">
+        <div class="scenario-num">Сценарий 1</div>
+        <div class="scenario-title">Базовый</div>
+        <div class="scenario-desc">Фактическое состояние УДС без жилого комплекса</div>
+      </div>
+      <div class="scenario-item">
+        <div class="scenario-num">Сценарий 2</div>
+        <div class="scenario-title">С ЖК</div>
+        <div class="scenario-desc">Проектное состояние с дополнительным трафиком от жилого комплекса (80% выезда в час пик)</div>
+      </div>
+      <div class="scenario-item">
+        <div class="scenario-num">Сценарий 3</div>
+        <div class="scenario-title">С мероприятиями</div>
+        <div class="scenario-desc">Проектное состояние с ЖК и предложенным комплексом организационных мер</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="report-section">
+    <h2>Разработанные мероприятия</h2>
+    <ul>
+      <li>Установка нового светофорного объекта на перекрёстке ул. Маршала Жукова — ул. Звездова (расстояние до соседнего перекрёстка 210 м — безопасное для координированного регулирования)</li>
+      <li>Продление зелёной фазы на 3–5 сек в направлении Фрунзенский мост → ул. Лермонтова на перекрёстке ул. Маршала Жукова — 10 лет Октября</li>
+      <li>Обустройство средствами фотовидеофиксации нарушений парковки на участке ул. Лермонтова — ул. Масленникова (стихийные парковки сокращают проезжую часть и снижают пропускную способность)</li>
+      <li>Создание остановки общественного транспорта маршрута № 16 вблизи ЖК — снижение доли поездок на личном автомобиле</li>
+      <li>Реконструкция съезда с ул. Мичурина для организации второй точки доступа к парковке ЖК</li>
+    </ul>
+  </div>
+
+  <div class="report-section">
+    <h2>Результаты моделирования</h2>
+    <p>Сравнение времени проезда расчётных маршрутов — базовый сценарий и сценарий с мероприятиями:</p>
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th>Маршрут</th>
+          <th>Расст., м</th>
+          <th>До, сек</th>
+          <th>После, сек</th>
+          <th>Эффект</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ул. Омская → ул. Куйбышева</td>
+          <td>1 334</td>
+          <td>368</td>
+          <td>274</td>
+          <td class="result-positive">−94 сек (−26%)</td>
+        </tr>
+        <tr>
+          <td>Фрунзенский мост → ул. Лермонтова</td>
+          <td>1 226</td>
+          <td>469</td>
+          <td>151</td>
+          <td class="result-positive">−318 сек (−68%)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin-top:16px;">Средняя скорость на направлении Фрунзенский мост → ул. Лермонтова выросла с 28 до 43 км/ч (+52%) за счёт перехода от неуправляемого к светофорному регулированию.</p>
+  </div>
+
+  <div class="case-cta">
+    <h2>Похожая задача?</h2>
+    <p>Выполним оценку транспортного воздействия жилых, офисных и торговых объектов на прилегающую УДС. Результат — обоснование для проекта планировки и согласование в экспертизе.</p>
+    <a href="../../#contact" class="btn-cta">Обсудить проект</a>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2025 Автодорпроект</p>
+  <div class="footer-links">
+    <a href="mailto:info@avtodor.pro">info@avtodor.pro</a>
+    <a href="tel:+73812955253">+7 (3812) 95-52-53</a>
+  </div>
+</footer>
+
+</body>
+</html>

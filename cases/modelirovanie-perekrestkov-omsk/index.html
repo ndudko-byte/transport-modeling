@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Моделирование перекрёстков в Омске: ул. Красный путь — Фрунзе — Орджоникидзе | Автодорпроект</title>
+  <meta name="description" content="Оптимизация четырёх перекрёстков в центре Омска: имитационная модель PTV Vissim, снижение заторов на 84% без реконструкции. Переразметка полос, корректировка светофорных фаз." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0f1c2e;
+      --surface:  #162336;
+      --card:     #1c2e45;
+      --accent:   #2f80c2;
+      --text:     #d4dde8;
+      --text-dim: #8a9bb0;
+      --border:   #253a55;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      border-bottom: 1px solid rgba(37,58,85,.6);
+      background: rgba(15,28,46,.92);
+      backdrop-filter: blur(12px);
+    }
+    .logo { font-size: 0.9rem; font-weight: 700; color: #fff; text-decoration: none; letter-spacing: 0.04em; }
+    .back-link {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--text-dim); font-size: 0.85rem; text-decoration: none;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .back-link:hover { color: #fff; }
+
+    /* ── MAIN ── */
+    main { max-width: 860px; margin: 0 auto; padding: 120px 48px 80px; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      font-size: 0.78rem; color: var(--text-dim);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .breadcrumb a { color: var(--text-dim); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { margin: 0 8px; }
+
+    /* ── HERO ── */
+    .case-label {
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+    h1 {
+      font-size: 2.2rem; font-weight: 700;
+      color: #fff; line-height: 1.25;
+      margin-bottom: 24px;
+    }
+    .case-meta-row {
+      display: flex; flex-wrap: wrap; gap: 24px;
+      padding: 20px 0; border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 56px;
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .meta-label { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+    .meta-value { font-size: 0.92rem; color: #fff; font-weight: 600; }
+
+    /* ── VIDEO ── */
+    .case-video-wrap {
+      position: relative; width: 100%;
+      padding-bottom: 56.25%;
+      background: var(--card);
+      margin-bottom: 56px;
+    }
+    .case-video-wrap iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; border: 0;
+    }
+    .video-caption {
+      margin-top: 10px; font-size: 0.8rem;
+      color: var(--text-dim); text-align: center;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── KPI BAR ── */
+    .kpi-bar {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border);
+      margin-bottom: 56px;
+    }
+    .kpi-cell { background: var(--card); padding: 20px 24px; }
+    .kpi-val { font-size: 1.8rem; font-weight: 700; color: #fff; line-height: 1; }
+    .kpi-val span { color: var(--accent); }
+    .kpi-lbl {
+      font-size: 0.72rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-top: 6px;
+    }
+
+    /* ── SECTIONS ── */
+    .report-section { margin-bottom: 52px; }
+    .report-section h2 {
+      font-size: 1.15rem; font-weight: 700; color: #fff;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .report-section p { color: var(--text); margin-bottom: 14px; }
+    .report-section ul { padding-left: 0; list-style: none; }
+    .report-section ul li {
+      padding: 8px 0 8px 20px;
+      border-bottom: 1px solid rgba(37,58,85,.4);
+      position: relative; color: var(--text);
+    }
+    .report-section ul li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--accent);
+    }
+
+    /* ── РЕЗУЛЬТАТЫ ПО ПЕРЕКРЁСТКАМ ── */
+    .results-table {
+      width: 100%; border-collapse: collapse;
+      margin-top: 16px; font-size: 0.88rem;
+    }
+    .results-table th {
+      text-align: left; padding: 10px 14px;
+      background: var(--surface);
+      color: var(--text-dim); font-size: 0.72rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--border);
+    }
+    .results-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(37,58,85,.4);
+      color: var(--text);
+    }
+    .results-table tr:hover td { background: var(--surface); }
+    .result-positive { color: #4caf80; font-weight: 600; }
+
+    /* ── CTA ── */
+    .case-cta {
+      margin-top: 64px; padding: 40px;
+      background: var(--surface); border: 1px solid var(--border);
+      text-align: center;
+    }
+    .case-cta h2 { font-size: 1.3rem; color: #fff; margin-bottom: 12px; }
+    .case-cta p { color: var(--text-dim); margin-bottom: 28px; }
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--accent); color: #fff;
+      padding: 14px 32px; border-radius: 50px;
+      font-size: 0.9rem; font-weight: 700;
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: background .2s;
+    }
+    .btn-cta:hover { background: #1a5f96; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.82rem; color: var(--text-dim);
+    }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    .footer-links { display: flex; gap: 24px; }
+
+    @media (max-width: 680px) {
+      header { padding: 0 20px; }
+      main { padding: 100px 20px 60px; }
+      h1 { font-size: 1.6rem; }
+      .kpi-bar { grid-template-columns: 1fr; }
+      .case-meta-row { gap: 16px; }
+      footer { flex-direction: column; gap: 12px; padding: 24px 20px; }
+      .results-table { font-size: 0.82rem; }
+      .results-table th, .results-table td { padding: 8px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../../" class="logo">Автодорпроект</a>
+  <a href="../../#projects" class="back-link">← Все кейсы</a>
+</header>
+
+<main>
+  <div class="breadcrumb">
+    <a href="../../">Главная</a>
+    <span>/</span>
+    <a href="../../#projects">Кейсы</a>
+    <span>/</span>
+    Оптимизация перекрёстков, Омск
+  </div>
+
+  <div class="case-label">Транспортное моделирование · PTV Vissim · Оптимизация УДС</div>
+  <h1>Оптимизация транспортного узла ул. Красный путь — Фрунзе — Орджоникидзе в Омске</h1>
+
+  <div class="case-meta-row">
+    <div class="meta-item">
+      <span class="meta-label">Год</span>
+      <span class="meta-value">2024</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Исполнитель</span>
+      <span class="meta-value">ООО «Автодорпроект»</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Город</span>
+      <span class="meta-value">Омск</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Программное обеспечение</span>
+      <span class="meta-value">PTV Vissim</span>
+    </div>
+  </div>
+
+  <div style="margin-bottom:16px;">
+    <div class="case-video-wrap">
+      <iframe
+        src="https://vkvideo.ru/video_ext.php?oid=-206317138&id=456239021&hash=b91210406572104f&hd=3"
+        allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <p class="video-caption">Имитационная модель движения транспортных потоков в PTV Vissim — фактическое и проектное состояние</p>
+  </div>
+
+  <div class="kpi-bar">
+    <div class="kpi-cell">
+      <div class="kpi-val">4</div>
+      <div class="kpi-lbl">перекрёстка</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-val">−<span>84%</span></div>
+      <div class="kpi-lbl">длина заторов</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-val">486 <span style="font-size:1.2rem">м</span></div>
+      <div class="kpi-lbl">максимальный затор до</div>
+    </div>
+  </div>
+
+  <div class="report-section">
+    <h2>Задача</h2>
+    <p>Четыре перекрёстка в центре Омска на участке ул. Красный путь — Фрунзе — Орджоникидзе — Гусарова работали на пределе пропускной способности. В вечерний час-пик (17:00–19:00) заторы достигали 486 м, блокируя движение на прилегающих магистралях.</p>
+    <p>Требовалось разработать мероприятия по оптимизации транспортного узла без реконструкции проезжей части — только за счёт организационных решений: переразметки и корректировки светофорного регулирования.</p>
+  </div>
+
+  <div class="report-section">
+    <h2>Методология</h2>
+    <ul>
+      <li>Натурные обследования интенсивности и состава транспортных потоков в утренний и вечерний час-пик</li>
+      <li>Построение имитационной микромодели четырёх перекрёстков в PTV Vissim на основе данных натурных замеров</li>
+      <li>Калибровка модели по фактическим данным — проверка соответствия модельных и натурных показателей заторообразования</li>
+      <li>Моделирование базового сценария (фактическое состояние) и проектного сценария (с предложенными мероприятиями)</li>
+      <li>Сравнительный анализ длин заторов и задержек по каждому подходу до и после внедрения мероприятий</li>
+    </ul>
+  </div>
+
+  <div class="report-section">
+    <h2>Разработанные мероприятия</h2>
+    <ul>
+      <li>Переразметка полос для увеличения пропускной способности в приоритетном направлении (создание 4-й полосы из центра)</li>
+      <li>Корректировка светофорных фаз и длительности цикла на всех четырёх перекрёстках</li>
+      <li>Ограничение левых поворотов на критических участках — перераспределение конфликтных потоков</li>
+      <li>Организация пешеходных переходов с островками безопасности</li>
+      <li>Нанесение разметки «Вафельница» (1.26) с фотовидеофиксацией нарушений для предотвращения блокировки перекрёстков</li>
+    </ul>
+  </div>
+
+  <div class="report-section">
+    <h2>Результаты моделирования</h2>
+    <p>Сравнение длин заторов на ключевых подходах в вечерний час-пик — фактическое и проектное состояния:</p>
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th>Перекрёсток / подход</th>
+          <th>До, м</th>
+          <th>После, м</th>
+          <th>Изменение</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Красный путь – Кемеровская</td>
+          <td>257</td>
+          <td>42</td>
+          <td class="result-positive">−84%</td>
+        </tr>
+        <tr>
+          <td>Гусарова – Фрунзе / Булатова</td>
+          <td>198</td>
+          <td>38</td>
+          <td class="result-positive">−81%</td>
+        </tr>
+        <tr>
+          <td>Фрунзе – Красный путь</td>
+          <td>228</td>
+          <td>177</td>
+          <td class="result-positive">−22%</td>
+        </tr>
+        <tr>
+          <td>Орджоникидзе – Фрунзе / Булатова (подход 1)</td>
+          <td>54</td>
+          <td>38</td>
+          <td class="result-positive">−30%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="case-cta">
+    <h2>Похожая задача?</h2>
+    <p>Выполним транспортное моделирование перекрёстков, разработаем мероприятия по оптимизации УДС и обоснуем их в рамках проекта планировки территории.</p>
+    <a href="../../#contact" class="btn-cta">Обсудить проект</a>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2025 Автодорпроект</p>
+  <div class="footer-links">
+    <a href="mailto:info@avtodor.pro">info@avtodor.pro</a>
+    <a href="tel:+73812955253">+7 (3812) 95-52-53</a>
+  </div>
+</footer>
+
+</body>
+</html>
