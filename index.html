@@ -792,6 +792,31 @@
       letter-spacing: 0.06em;
       pointer-events: none;
     }
+    .case-video--preview { background: var(--card); }
+    .case-video-link {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-dim);
+      transition: color 0.2s;
+    }
+    .case-video-link:hover { color: var(--accent); }
+    .case-video-play {
+      font-size: 2.5rem;
+      line-height: 1;
+      opacity: 0.6;
+    }
+    .case-video-link:hover .case-video-play { opacity: 1; }
+    .case-video-hint {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
 
     .case-meta {
       font-size: 0.75rem;
@@ -1136,36 +1161,34 @@
 
     <!-- Кейс 1 -->
     <div class="case-item">
-      <div class="case-video">
-        <iframe
-          src="about:blank"
-          frameborder="0"
-          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-        <div class="case-video-placeholder">Видео будет добавлено</div>
+      <!-- TODO: заменить на iframe когда видео ВК будет готово: https://vkvideo.ru/video-206317138_456239019 -->
+      <div class="case-video case-video--preview">
+        <a href="https://vkvideo.ru/video-206317138_456239019" target="_blank" rel="noopener" class="case-video-link">
+          <div class="case-video-play">&#9654;</div>
+          <div class="case-video-hint">Смотреть видео</div>
+        </a>
       </div>
       <div class="case-body">
-        <div class="case-meta"><span>2025</span> · Застройщик · Москва</div>
-        <h3>ЖК «Северная гавань»</h3>
-        <p class="case-goal">Оценить транспортное воздействие 4 500 квартир на прилегающую УДС и обосновать количество и геометрию выездов для прохождения экспертизы.</p>
+        <div class="case-meta"><span>2011</span> · ФКУ Упрдор «Лена» · Трасса А-360</div>
+        <h3>Весогабаритный контроль на федеральной трассе А-360 Лена</h3>
+        <p class="case-goal">ФКУ Упрдор «Лена» потребовалось обосновать размещение автоматизированного СПВК на 717 км трассы А-360 и наглядно показать принципы его работы для согласования проекта.</p>
         <ul class="case-solutions">
-          <li>Разделение жилого и грузового трафика на въездах</li>
-          <li>Оптимизация светофорных фаз на двух прилегающих перекрёстках</li>
-          <li>Проектирование дополнительных полос правого поворота</li>
+          <li>Запроектировали СПВК со всей необходимой инфраструктурой и получили положительное заключение экспертизы</li>
+          <li>Построили имитационную 3D-модель работы участка трассы и пункта контроля</li>
+          <li>Создали презентационный ролик: движение фур, алгоритм взвешивания, работа инспекторов</li>
         </ul>
         <div class="case-kpis">
           <div class="case-kpi">
-            <div class="case-kpi-val">4 500</div>
-            <div class="case-kpi-label">квартир</div>
+            <div class="case-kpi-val">1 500 <span>м</span></div>
+            <div class="case-kpi-label">протяжённость участка</div>
           </div>
           <div class="case-kpi">
-            <div class="case-kpi-val">−<span>38%</span></div>
-            <div class="case-kpi-label">пиковая задержка</div>
+            <div class="case-kpi-val">2</div>
+            <div class="case-kpi-label">полосы контроля</div>
           </div>
           <div class="case-kpi">
-            <div class="case-kpi-val">6 <span>нед</span></div>
-            <div class="case-kpi-label">срок работ</div>
+            <div class="case-kpi-val">3D</div>
+            <div class="case-kpi-label">визуализация движения</div>
           </div>
         </div>
       </div>
