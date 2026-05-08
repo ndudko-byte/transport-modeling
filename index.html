@@ -69,6 +69,27 @@
 
     nav a:hover { color: #fff; }
 
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 50px;
+      padding: 9px 20px;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .nav-cta:hover { background: #1a6aad; transform: translateY(-1px); }
+
     .burger {
       display: none;
       flex-direction: column;
@@ -129,25 +150,32 @@
     .hero-cta {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       color: #fff;
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
       text-decoration: none;
       border: none;
-      background: none;
+      background: var(--accent);
       cursor: pointer;
-      padding: 0;
-      transition: gap .25s;
+      padding: 16px 32px;
+      border-radius: 50px;
+      box-shadow: 0 4px 24px rgba(47,128,194,.5);
+      transition: background .2s, transform .15s, box-shadow .2s;
+      margin-top: 12px;
     }
 
-    .hero-cta:hover { gap: 16px; }
+    .hero-cta:hover {
+      background: #1a6aad;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(47,128,194,.65);
+    }
 
     .hero-cta svg {
       width: 20px;
       height: 20px;
-      fill: var(--accent);
+      stroke: #fff;
       flex-shrink: 0;
     }
 
@@ -1160,6 +1188,7 @@
     @media (max-width: 660px) {
       header { padding: 0 24px; }
       nav { display: none; }
+      .nav-cta { display: none; }
       nav.open {
         display: flex;
         flex-direction: column;
@@ -1207,6 +1236,7 @@
     <a href="#team">Команда</a>
     <a href="#contact">Контакты</a>
   </nav>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Оставить заявку</button>
   <div class="burger" id="burger" aria-label="Меню">
     <span></span><span></span><span></span>
   </div>
@@ -1219,7 +1249,7 @@
   <p>Разрабатываем модели для существующих и проектируемых территорий — точно, обоснованно, в срок.</p>
   <button class="hero-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
     Оставить заявку
-    <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="#2f80c2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+    <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
   </button>
   <div class="hero-scroll">Прокрутить</div>
 </section>
