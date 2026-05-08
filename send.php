@@ -16,7 +16,7 @@ if (!$name || !$phone) {
     exit(json_encode(['ok' => false, 'error' => 'missing fields']));
 }
 
-$to      = 'info@avtodor.pro';
+$to      = 'n.dudko@avtodor.pro';
 $subject = '=?UTF-8?B?' . base64_encode('Новая заявка с сайта') . '?=';
 $body    = "Имя: $name\nТелефон: $phone\nЗадача: $task";
 $headers = "From: noreply@avtodor.pro\r\nContent-Type: text/plain; charset=UTF-8";
