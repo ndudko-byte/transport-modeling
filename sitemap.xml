@@ -36,4 +36,33 @@
     <priority>0.8</priority>
   </url>
 
+
+  <url>
+    <loc>https://avtodor.pro/transport/blog/</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://avtodor.pro/transport/blog/ptv-vissim-chto-eto/</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://avtodor.pro/transport/blog/transportnoe-modelirovanie-zhk/</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://avtodor.pro/transport/blog/kak-provesti-ovozt/</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>

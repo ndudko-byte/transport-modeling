@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Что такое PTV Vissim и зачем он нужен — Автодорпроект</title>
+  <meta name="description" content="PTV Vissim — программа для микроскопического моделирования транспортных потоков. Разбираем, как она работает, чем отличается от других и в каких задачах применяется." />
+  <link rel="canonical" href="https://avtodor.pro/transport/blog/ptv-vissim-chto-eto/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://avtodor.pro/transport/blog/ptv-vissim-chto-eto/" />
+  <meta property="og:title" content="Что такое PTV Vissim и зачем он нужен — Автодорпроект" />
+  <meta property="og:description" content="PTV Vissim — программа для микроскопического моделирования транспортных потоков. Разбираем, как она работает и в каких задачах применяется." />
+  <meta property="og:image" content="https://avtodor.pro/transport/source/pics/og-banner.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Автодорпроект" />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Что такое PTV Vissim и зачем он нужен в транспортном проектировании",
+    "description": "PTV Vissim — программный комплекс для микроскопического имитационного моделирования транспортных потоков. Разбираем, как он работает и где применяется.",
+    "url": "https://avtodor.pro/transport/blog/ptv-vissim-chto-eto/",
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://avtodor.pro/#organization",
+      "name": "Автодорпроект"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Автодорпроект"
+    },
+    "datePublished": "2026-05-09",
+    "dateModified": "2026-05-09",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://avtodor.pro/transport/blog/ptv-vissim-chto-eto/"
+    }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0f1c2e;
+      --surface:  #162336;
+      --card:     #1c2e45;
+      --accent:   #2f80c2;
+      --accent2:  #1a5f96;
+      --text:     #d4dde8;
+      --text-dim: #8a9bb0;
+      --border:   #253a55;
+      --radius:   10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      border-bottom: 1px solid rgba(37,58,85,.6);
+      background: rgba(15,28,46,.92);
+      backdrop-filter: blur(12px);
+    }
+    .logo { font-size: 0.9rem; font-weight: 700; color: #fff; text-decoration: none; letter-spacing: 0.04em; text-transform: uppercase; }
+    .back-link {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--text-dim); font-size: 0.85rem; text-decoration: none;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .back-link:hover { color: #fff; }
+
+    /* ── MAIN ── */
+    main { max-width: 760px; margin: 0 auto; padding: 120px 48px 80px; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      font-size: 0.78rem; color: var(--text-dim);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .breadcrumb a { color: var(--text-dim); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { margin: 0 8px; }
+
+    /* ── ARTICLE HEADER ── */
+    .article-label {
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 2.1rem; font-weight: 700;
+      color: #fff; line-height: 1.25;
+      margin-bottom: 24px;
+    }
+
+    .article-meta-row {
+      display: flex; align-items: center; gap: 24px;
+      padding: 16px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+      font-size: 0.82rem; color: var(--text-dim);
+    }
+
+    /* ── ARTICLE BODY ── */
+    .article-body h2 {
+      font-size: 1.15rem; font-weight: 700; color: #fff;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      margin-top: 48px;
+    }
+
+    .article-body h2:first-child { margin-top: 0; }
+
+    .article-body p {
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+
+    .article-body ul, .article-body ol {
+      padding-left: 0; list-style: none;
+      margin-bottom: 18px;
+    }
+
+    .article-body ul li, .article-body ol li {
+      padding: 8px 0 8px 24px;
+      border-bottom: 1px solid rgba(37,58,85,.4);
+      position: relative; color: var(--text);
+      counter-increment: ol-counter;
+    }
+
+    .article-body ul li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--accent);
+    }
+
+    .article-body ol { counter-reset: ol-counter; }
+
+    .article-body ol li::before {
+      content: counter(ol-counter) '.';
+      position: absolute; left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .article-body strong { color: #fff; }
+
+    .infobox {
+      background: var(--card);
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      margin: 32px 0;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+
+    .infobox p { margin-bottom: 0; font-size: 0.92rem; }
+
+    /* ── RELATED ── */
+    .related {
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+
+    .related-label {
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--text-dim); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 20px;
+    }
+
+    .related-links {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+
+    .related-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.95rem;
+      padding: 14px 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color .2s, color .2s;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .related-links a:hover { border-color: var(--accent); color: #fff; }
+    .related-links a::after { content: '→'; color: var(--accent); }
+
+    /* ── CTA ── */
+    .article-cta {
+      margin-top: 64px; padding: 40px;
+      background: var(--surface); border: 1px solid var(--border);
+      text-align: center; border-radius: var(--radius);
+    }
+    .article-cta h2 { font-size: 1.3rem; color: #fff; margin-bottom: 12px; }
+    .article-cta p { color: var(--text-dim); margin-bottom: 28px; }
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--accent); color: #fff;
+      padding: 14px 32px; border-radius: 50px;
+      font-size: 0.9rem; font-weight: 700;
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: background .2s;
+    }
+    .btn-cta:hover { background: var(--accent2); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.82rem; color: var(--text-dim);
+    }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    .footer-links { display: flex; gap: 24px; }
+
+    @media (max-width: 680px) {
+      header { padding: 0 20px; }
+      main { padding: 100px 20px 60px; }
+      h1 { font-size: 1.6rem; }
+      footer { flex-direction: column; gap: 12px; padding: 24px 20px; }
+      .article-cta { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../../" class="logo">Автодорпроект</a>
+  <a href="../" class="back-link">← Блог</a>
+</header>
+
+<main>
+  <div class="breadcrumb">
+    <a href="../../">Главная</a>
+    <span>/</span>
+    <a href="../">Блог</a>
+    <span>/</span>
+    PTV Vissim
+  </div>
+
+  <div class="article-label">PTV Vissim · Транспортное моделирование</div>
+  <h1>Что такое PTV Vissim и зачем он нужен в транспортном проектировании</h1>
+
+  <div class="article-meta-row">
+    <span>Автодорпроект</span>
+    <span>·</span>
+    <span>Май 2026</span>
+    <span>·</span>
+    <span>8 мин чтения</span>
+  </div>
+
+  <div class="article-body">
+
+    <p>Когда перед транспортным инженером стоит задача оценить, справится ли перекрёсток с дополнительной нагрузкой после ввода нового ЖК, или как изменятся очереди у светофора при переносе остановки — натурный эксперимент невозможен. Нельзя временно построить развязку, замерить результат и снести её обратно. Именно для таких задач существует транспортное моделирование, а PTV Vissim — один из ведущих инструментов в этой области.</p>
+
+    <h2>Что такое PTV Vissim</h2>
+
+    <p>PTV Vissim — программный комплекс для <strong>микроскопического имитационного моделирования транспортных потоков</strong>. Разработан немецкой компанией PTV Group (Карлсруэ, Германия) и применяется транспортными инженерами по всему миру с 1992 года.</p>
+
+    <p>«Микроскопическое» означает, что программа моделирует поведение <strong>каждого отдельного транспортного средства</strong> — его скорость, ускорение, дистанцию до впереди идущего автомобиля, реакцию на сигналы светофора и манёвры других участников движения. В отличие от макроскопических моделей, которые оперируют усреднёнными потоками, Vissim показывает реальную картину: где образуются очереди, почему возникают заторы и как изменится ситуация при различных сценариях.</p>
+
+    <div class="infobox">
+      <p><strong>Ключевое преимущество микроскопического подхода:</strong> модель учитывает неоднородность транспортного потока — легковые автомобили, грузовики, автобусы, велосипедисты и пешеходы движутся с разными характеристиками и взаимодействуют друг с другом, как в реальности.</p>
+    </div>
+
+    <h2>Чем Vissim отличается от других программ</h2>
+
+    <p>На рынке существует несколько программ для транспортного моделирования: SUMO (бесплатная, с открытым кодом), Aimsun, TransModeler, SIDRA. PTV Vissim занимает доминирующее положение в профессиональной среде по ряду причин:</p>
+
+    <ul>
+      <li><strong>Модель поведения водителя Wiedemann.</strong> Собственная психофизическая модель следования за лидером, разработанная в Карлсруэ, точнее всего описывает поведение водителей в условиях плотного городского трафика.</li>
+      <li><strong>Гибкий API.</strong> Vissim позволяет подключать внешние алгоритмы управления сигналами — это критично для моделирования адаптивных систем регулирования.</li>
+      <li><strong>Совместимость с нормативной базой.</strong> Программа признана в экспертных заключениях России, Германии, США и ряда других стран.</li>
+      <li><strong>Визуализация.</strong> Трёхмерная анимация движения транспорта наглядно демонстрирует результаты заказчику и надзорным органам.</li>
+    </ul>
+
+    <h2>Что можно моделировать в Vissim</h2>
+
+    <p>Программа охватывает широкий спектр транспортных объектов и задач:</p>
+
+    <ul>
+      <li>Регулируемые и нерегулируемые перекрёстки, круговые движения</li>
+      <li>Транспортные развязки разного уровня</li>
+      <li>Городские магистрали и сети улиц</li>
+      <li>Пешеходные потоки и пешеходно-транспортное взаимодействие</li>
+      <li>Общественный транспорт: маршруты, остановки, приоритет на светофорах</li>
+      <li>Контрольно-пропускные пункты и пункты весогабаритного контроля (СПВК)</li>
+      <li>Парковочные зоны и въезды на территорию</li>
+    </ul>
+
+    <h2>Типичные задачи, которые решает Vissim</h2>
+
+    <p>В практике транспортного проектирования Vissim используется в следующих сценариях:</p>
+
+    <ol>
+      <li><strong>ОВТД для новых объектов.</strong> Оценка воздействия строящегося ЖК, торгового центра, логистического комплекса или промышленного предприятия на прилегающую улично-дорожную сеть.</li>
+      <li><strong>Оптимизация светофорного регулирования.</strong> Подбор длительности фаз и циклов для минимизации задержек и снижения вероятности ДТП.</li>
+      <li><strong>Анализ пропускной способности.</strong> Проверка, выдержит ли существующая инфраструктура прогнозный рост трафика.</li>
+      <li><strong>Проектирование реконструкции.</strong> Сравнение нескольких вариантов перепланировки перекрёстка или развязки до начала строительных работ.</li>
+      <li><strong>КСОДД.</strong> Разработка комплексных схем организации дорожного движения для городов и агломераций.</li>
+      <li><strong>Безопасность дорожного движения.</strong> Выявление конфликтных точек и оценка потенциальных мест концентрации ДТП.</li>
+    </ol>
+
+    <h2>Как выглядит работа с Vissim на практике</h2>
+
+    <p>Создание транспортной модели — это не просто запустить программу и нажать кнопку. Работа состоит из нескольких этапов, каждый из которых требует профессионального суждения.</p>
+
+    <p>Сначала инженеры проводят <strong>натурное обследование</strong>: считают транспортные потоки на узловых точках, фиксируют интенсивность по направлениям и составу транспорта, замеряют задержки и длины очередей. Эти данные становятся основой для настройки модели.</p>
+
+    <p>Затем в Vissim строится геометрия — схема дорог, полос, пересечений. Задаются характеристики транспортного потока: интенсивность, состав (легковые, грузовые, автобусы), желаемые скорости. Настраивается светофорное регулирование.</p>
+
+    <p>После запуска прогонов модель <strong>калибруется</strong> — её показатели сопоставляются с натурными данными. Если модель воспроизводит реальную картину с приемлемой точностью, она считается валидированной и готова к сценарному анализу.</p>
+
+    <div class="infobox">
+      <p>Именно на этапе калибровки заключается главное профессиональное искусство транспортного моделировщика: правильно настроить параметры модели поведения водителей под конкретный объект и регион. Единых универсальных настроек не существует.</p>
+    </div>
+
+    <h2>Итог</h2>
+
+    <p>PTV Vissim — это не просто программа, а инструмент принятия обоснованных инженерных решений. Он позволяет «проиграть» ситуацию на экране до того, как она воплотится в бетоне и асфальте — и тем самым избежать дорогостоящих ошибок. В России использование транспортных моделей стало стандартом при проектировании крупных объектов, а в ряде случаев прямо требуется нормативными документами.</p>
+
+  </div>
+
+  <div class="related">
+    <div class="related-label">Читайте также</div>
+    <div class="related-links">
+      <a href="../transportnoe-modelirovanie-zhk/">Транспортное моделирование для жилых комплексов: когда нужно и что включает</a>
+      <a href="../kak-provesti-ovozt/">Как проводится ОВТД: этапы, сроки и что получает заказчик</a>
+    </div>
+  </div>
+
+  <div class="article-cta">
+    <h2>Нужна транспортная модель для вашего объекта?</h2>
+    <p>Работаем по всей России. Расскажите о задаче — подберём состав работ и назовём сроки.</p>
+    <a href="../../#contact" class="btn-cta">Обсудить проект</a>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2025 Автодорпроект</p>
+  <div class="footer-links">
+    <a href="mailto:info@avtodor.pro">info@avtodor.pro</a>
+    <a href="tel:+73812955253">+7 (3812) 95-52-53</a>
+  </div>
+</footer>
+
+</body>
+</html>

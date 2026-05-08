@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Блог о транспортном моделировании — Автодорпроект</title>
+  <meta name="description" content="Экспертные статьи о транспортном моделировании, PTV Vissim, ОВТД и проектировании транспортной инфраструктуры от специалистов Автодорпроект." />
+  <link rel="canonical" href="https://avtodor.pro/transport/blog/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://avtodor.pro/transport/blog/" />
+  <meta property="og:title" content="Блог о транспортном моделировании — Автодорпроект" />
+  <meta property="og:description" content="Экспертные статьи о транспортном моделировании, PTV Vissim, ОВТД и проектировании транспортной инфраструктуры." />
+  <meta property="og:image" content="https://avtodor.pro/transport/source/pics/og-banner.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Автодорпроект" />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Блог о транспортном моделировании",
+    "description": "Экспертные статьи о транспортном моделировании, PTV Vissim, ОВТД и проектировании транспортной инфраструктуры.",
+    "url": "https://avtodor.pro/transport/blog/",
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://avtodor.pro/#organization",
+      "name": "Автодорпроект"
+    }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0f1c2e;
+      --surface:  #162336;
+      --card:     #1c2e45;
+      --accent:   #2f80c2;
+      --accent2:  #1a5f96;
+      --text:     #d4dde8;
+      --text-dim: #8a9bb0;
+      --border:   #253a55;
+      --radius:   10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      border-bottom: 1px solid rgba(37,58,85,.6);
+      background: rgba(15,28,46,.92);
+      backdrop-filter: blur(12px);
+    }
+
+    .logo { font-size: 0.9rem; font-weight: 700; color: #fff; text-decoration: none; letter-spacing: 0.04em; text-transform: uppercase; }
+
+    .back-link {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--text-dim); font-size: 0.85rem; text-decoration: none;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .back-link:hover { color: #fff; }
+
+    /* ── MAIN ── */
+    main { max-width: 980px; margin: 0 auto; padding: 120px 48px 80px; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      font-size: 0.78rem; color: var(--text-dim);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+    .breadcrumb a { color: var(--text-dim); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { margin: 0 8px; }
+
+    /* ── HERO ── */
+    .blog-label {
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 2.4rem; font-weight: 700;
+      color: #fff; line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .blog-lead {
+      font-size: 1.05rem; color: var(--text-dim);
+      max-width: 600px; margin-bottom: 64px;
+    }
+
+    /* ── GRID ── */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+
+    .article-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: border-color .2s, transform .2s;
+    }
+
+    .article-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .card-body {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .article-tag {
+      font-size: 0.7rem; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: rgba(47,128,194,.12);
+      padding: 3px 10px;
+      border-radius: 50px;
+    }
+
+    .article-date {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .article-card h2 {
+      font-size: 1.05rem; font-weight: 700;
+      color: #fff; line-height: 1.35;
+      margin-bottom: 12px;
+    }
+
+    .article-card p {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      flex: 1;
+      margin-bottom: 24px;
+    }
+
+    .btn-read {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: color .2s;
+      align-self: flex-start;
+    }
+    .btn-read:hover { color: #fff; }
+    .btn-read::after { content: '→'; }
+
+    /* ── CTA ── */
+    .blog-cta {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 48px;
+      text-align: center;
+      border-radius: var(--radius);
+    }
+
+    .blog-cta h2 {
+      font-size: 1.5rem; font-weight: 700;
+      color: #fff; margin-bottom: 12px;
+    }
+
+    .blog-cta p {
+      color: var(--text-dim);
+      margin-bottom: 28px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--accent); color: #fff;
+      padding: 14px 32px; border-radius: 50px;
+      font-size: 0.9rem; font-weight: 700;
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: background .2s;
+    }
+    .btn-cta:hover { background: var(--accent2); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.82rem; color: var(--text-dim);
+    }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    .footer-links { display: flex; gap: 24px; }
+
+    @media (max-width: 680px) {
+      header { padding: 0 20px; }
+      main { padding: 100px 20px 60px; }
+      h1 { font-size: 1.7rem; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .blog-cta { padding: 32px 20px; }
+      footer { flex-direction: column; gap: 12px; padding: 24px 20px; }
+    }
+
+    @media (min-width: 681px) and (max-width: 900px) {
+      .blog-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../" class="logo">Автодорпроект</a>
+  <a href="../" class="back-link">← Главная</a>
+</header>
+
+<main>
+  <div class="breadcrumb">
+    <a href="../">Главная</a>
+    <span>/</span>
+    Блог
+  </div>
+
+  <div class="blog-label">Экспертный блог</div>
+  <h1>Транспортное моделирование: статьи и практика</h1>
+  <p class="blog-lead">Пишем о PTV Vissim, ОВТД, натурных обследованиях и проектировании транспортной инфраструктуры — на основе реальных проектов по всей России.</p>
+
+  <div class="blog-grid">
+
+    <article class="article-card">
+      <div class="card-body">
+        <div class="article-meta">
+          <span class="article-tag">PTV Vissim</span>
+          <span class="article-date">Май 2026</span>
+        </div>
+        <h2>Что такое PTV Vissim и зачем он нужен в транспортном проектировании</h2>
+        <p>Разбираем, как работает программный комплекс PTV Vissim, чем микроскопическое моделирование отличается от макроскопического и в каких задачах без него не обойтись.</p>
+        <a href="ptv-vissim-chto-eto/" class="btn-read">Читать статью</a>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="card-body">
+        <div class="article-meta">
+          <span class="article-tag">Застройщикам</span>
+          <span class="article-date">Май 2026</span>
+        </div>
+        <h2>Транспортное моделирование для жилых комплексов: когда нужно и что включает</h2>
+        <p>Почему застройщик обязан заказать транспортную модель, как она помогает пройти экспертизу и что произойдёт, если её не сделать.</p>
+        <a href="transportnoe-modelirovanie-zhk/" class="btn-read">Читать статью</a>
+      </div>
+    </article>
+
+    <article class="article-card">
+      <div class="card-body">
+        <div class="article-meta">
+          <span class="article-tag">Методология</span>
+          <span class="article-date">Май 2026</span>
+        </div>
+        <h2>Как проводится ОВТД: этапы, сроки и что получает заказчик</h2>
+        <p>Пошаговый разбор оценки воздействия на транспортную сеть: от натурного обследования до финального технического отчёта с рекомендациями.</p>
+        <a href="kak-provesti-ovozt/" class="btn-read">Читать статью</a>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="blog-cta">
+    <h2>Нужна консультация по проекту?</h2>
+    <p>Расскажите о задаче — ответим в течение рабочего дня и предложим оптимальный состав работ.</p>
+    <a href="../#contact" class="btn-cta">Оставить заявку</a>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2025 Автодорпроект</p>
+  <div class="footer-links">
+    <a href="mailto:info@avtodor.pro">info@avtodor.pro</a>
+    <a href="tel:+73812955253">+7 (3812) 95-52-53</a>
+  </div>
+</footer>
+
+</body>
+</html>
