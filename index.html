@@ -749,6 +749,22 @@
 
     .btn-modal:hover { border-color: var(--accent); color: #fff; }
 
+    .btn-report {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 10px 24px;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      color: var(--text-dim);
+      font-size: 0.83rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-report:hover { border-color: var(--accent); color: #fff; }
+
     /* ── CASES ── */
     .case-list { display: flex; flex-direction: column; }
 
@@ -1196,38 +1212,37 @@
 
     <!-- Кейс 2 -->
     <div class="case-item">
-      <div class="case-video">
-        <iframe
-          src="about:blank"
-          frameborder="0"
-          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-        <div class="case-video-placeholder">Видео будет добавлено</div>
+      <!-- TODO: заменить на iframe когда видео ВК будет готово -->
+      <div class="case-video case-video--preview">
+        <div class="case-video-link" style="cursor:default;">
+          <div class="case-video-play" style="opacity:0.3;">&#9654;</div>
+          <div class="case-video-hint">Видео скоро появится</div>
+        </div>
       </div>
       <div class="case-body">
-        <div class="case-meta"><span>2024</span> · Администрация города · Казань</div>
-        <h3>Реконструкция узла на пр. Победы</h3>
-        <p class="case-goal">Оценить четыре варианта реконструкции перегруженного перекрёстка и обосновать оптимальное решение для включения в проект планировки.</p>
+        <div class="case-meta"><span>2025</span> · ООО «Фостер» · Ковров</div>
+        <h3>Реконструкция ул. Строителей в Коврове</h3>
+        <p class="case-goal">Реконструкция шестиполосной ул. Строителей грозила перенести заторы на прилегающие перекрёстки — администрация города заказала комплексное моделирование для обоснования мероприятий в проекте планировки.</p>
         <ul class="case-solutions">
-          <li>Сравнение кольца, светофора, развязки и выделенной полосы ОТ</li>
-          <li>Введение адаптивного фазирования под утренний и вечерний пик</li>
-          <li>Приоритизация общественного транспорта в одном из сценариев</li>
+          <li>Провели натурное обследование 24 направлений движения на 2 перекрёстках</li>
+          <li>Построили имитационную микромодель в PTV Vissim: фактическое и проектное состояние</li>
+          <li>Разработали мероприятия: корректировка светофорных фаз и организации движения по полосам</li>
         </ul>
         <div class="case-kpis">
           <div class="case-kpi">
-            <div class="case-kpi-val">4</div>
-            <div class="case-kpi-label">сценария</div>
+            <div class="case-kpi-val">2</div>
+            <div class="case-kpi-label">перекрёстка</div>
           </div>
           <div class="case-kpi">
-            <div class="case-kpi-val">+<span>22%</span></div>
-            <div class="case-kpi-label">пропускная способность</div>
+            <div class="case-kpi-val">−<span>62%</span></div>
+            <div class="case-kpi-label">длина заторов</div>
           </div>
           <div class="case-kpi">
-            <div class="case-kpi-val">10 <span>нед</span></div>
-            <div class="case-kpi-label">срок работ</div>
+            <div class="case-kpi-val">2 550 <span>м</span></div>
+            <div class="case-kpi-label">участок моделирования</div>
           </div>
         </div>
+        <a href="cases/ul-stroiteley-kovrov/" class="btn-report">Подробный отчёт →</a>
       </div>
     </div>
 

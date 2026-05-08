@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Транспортное моделирование реконструкции ул. Строителей — Ковров | Автодорпроект</title>
+  <meta name="description" content="Имитационное моделирование в PTV Vissim для реконструкции ул. Строителей в Коврове: обследование 24 направлений, снижение заторов на 62%, мероприятия по светофорному регулированию." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0f1c2e;
+      --surface:  #162336;
+      --card:     #1c2e45;
+      --accent:   #2f80c2;
+      --text:     #d4dde8;
+      --text-dim: #8a9bb0;
+      --border:   #253a55;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      border-bottom: 1px solid rgba(37,58,85,.6);
+      background: rgba(15,28,46,.92);
+      backdrop-filter: blur(12px);
+    }
+    .logo { font-size: 0.9rem; font-weight: 700; color: #fff; text-decoration: none; letter-spacing: 0.04em; }
+    .back-link {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--text-dim); font-size: 0.85rem; text-decoration: none;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .back-link:hover { color: #fff; }
+
+    /* ── MAIN ── */
+    main { max-width: 860px; margin: 0 auto; padding: 120px 48px 80px; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      font-size: 0.78rem; color: var(--text-dim);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .breadcrumb a { color: var(--text-dim); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { margin: 0 8px; }
+
+    /* ── HERO ── */
+    .case-label {
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+    h1 {
+      font-size: 2.2rem; font-weight: 700;
+      color: #fff; line-height: 1.25;
+      margin-bottom: 24px;
+    }
+    .case-meta-row {
+      display: flex; flex-wrap: wrap; gap: 24px;
+      padding: 20px 0; border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 56px;
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .meta-label { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+    .meta-value { font-size: 0.92rem; color: #fff; font-weight: 600; }
+
+    /* ── KPI BAR ── */
+    .kpi-bar {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border);
+      margin-bottom: 56px;
+    }
+    .kpi-cell {
+      background: var(--card);
+      padding: 20px 24px;
+    }
+    .kpi-val {
+      font-size: 1.8rem; font-weight: 700; color: #fff;
+      line-height: 1;
+    }
+    .kpi-val span { color: var(--accent); }
+    .kpi-lbl {
+      font-size: 0.72rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-top: 6px;
+    }
+
+    /* ── SECTIONS ── */
+    .report-section { margin-bottom: 52px; }
+    .report-section h2 {
+      font-size: 1.15rem; font-weight: 700; color: #fff;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .report-section p { color: var(--text); margin-bottom: 14px; }
+    .report-section ul { padding-left: 0; list-style: none; }
+    .report-section ul li {
+      padding: 8px 0 8px 20px;
+      border-bottom: 1px solid rgba(37,58,85,.4);
+      position: relative; color: var(--text);
+    }
+    .report-section ul li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--accent);
+    }
+
+    /* ── ТАБЛИЦА РЕЗУЛЬТАТОВ ── */
+    .results-table {
+      width: 100%; border-collapse: collapse;
+      font-size: 0.88rem; margin-top: 20px;
+    }
+    .results-table th {
+      background: var(--card); padding: 12px 16px;
+      text-align: left; color: var(--text-dim);
+      font-size: 0.75rem; text-transform: uppercase;
+      letter-spacing: 0.08em; border-bottom: 1px solid var(--border);
+    }
+    .results-table td {
+      padding: 12px 16px; border-bottom: 1px solid rgba(37,58,85,.4);
+      color: var(--text);
+    }
+    .results-table tr:hover td { background: rgba(28,46,69,.5); }
+    .result-better { color: #4caf78; font-weight: 600; }
+
+    /* ── CTA ── */
+    .case-cta {
+      margin-top: 64px; padding: 40px;
+      background: var(--surface); border: 1px solid var(--border);
+      text-align: center;
+    }
+    .case-cta h2 { font-size: 1.3rem; color: #fff; margin-bottom: 12px; }
+    .case-cta p { color: var(--text-dim); margin-bottom: 28px; }
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--accent); color: #fff;
+      padding: 14px 32px; border-radius: 50px;
+      font-size: 0.9rem; font-weight: 700;
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: background .2s;
+    }
+    .btn-cta:hover { background: #1a5f96; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.82rem; color: var(--text-dim);
+    }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    .footer-links { display: flex; gap: 24px; }
+
+    @media (max-width: 680px) {
+      header { padding: 0 20px; }
+      main { padding: 100px 20px 60px; }
+      h1 { font-size: 1.6rem; }
+      .kpi-bar { grid-template-columns: 1fr; }
+      .case-meta-row { gap: 16px; }
+      footer { flex-direction: column; gap: 12px; padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../../" class="logo">Автодорпроект</a>
+  <a href="../../#projects" class="back-link">← Все кейсы</a>
+</header>
+
+<main>
+  <div class="breadcrumb">
+    <a href="../../">Главная</a>
+    <span>/</span>
+    <a href="../../#projects">Кейсы</a>
+    <span>/</span>
+    Ул. Строителей, Ковров
+  </div>
+
+  <div class="case-label">Имитационное моделирование · PTV Vissim</div>
+  <h1>Реконструкция ул. Строителей в Коврове</h1>
+
+  <div class="case-meta-row">
+    <div class="meta-item">
+      <span class="meta-label">Год</span>
+      <span class="meta-value">2025</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Заказчик</span>
+      <span class="meta-value">ООО «Фостер»</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Генеральный заказчик</span>
+      <span class="meta-value">Администрация г. Ковров</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Программное обеспечение</span>
+      <span class="meta-value">PTV Vissim</span>
+    </div>
+  </div>
+
+  <div class="kpi-bar">
+    <div class="kpi-cell">
+      <div class="kpi-val">2</div>
+      <div class="kpi-lbl">перекрёстка</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-val">−<span>62%</span></div>
+      <div class="kpi-lbl">длина заторов</div>
+    </div>
+    <div class="kpi-cell">
+      <div class="kpi-val">2 550 <span style="font-size:1.2rem">м</span></div>
+      <div class="kpi-lbl">участок моделирования</div>
+    </div>
+  </div>
+
+  <div class="report-section">
+    <h2>Задача</h2>
+    <p>Оценить влияние реконструкции шестиполосной ул. Строителей на прилегающие перекрёстки и обосновать мероприятия по повышению пропускной способности для включения в проект планировки.</p>
+    <p>Реконструкция самой улицы увеличивала её пропускную способность, однако без анализа узловых перекрёстков это могло привести к переносу заторов на примыкающую сеть. Требовалась комплексная оценка двух ключевых узлов: ул. Строителей — ул. Комсомольская — ул. Кирова и ул. Строителей — ул. Ватутина.</p>
+  </div>
+
+  <div class="report-section">
+    <h2>Методология</h2>
+    <p>Работа выполнена в программном комплексе PTV Vissim методом имитационного микромоделирования. Это позволяет наблюдать движение каждого транспортного средства в модели и получать детальные показатели: задержки, длины очередей, скорость потока, плотность.</p>
+    <ul>
+      <li>Видеосъёмка 2 перекрёстков в час пик (8:00–9:00, будний день)</li>
+      <li>Камеральная обработка: учёт 24 направлений по категориям ТС (легковые, автобусы, грузовые, спецтехника)</li>
+      <li>Построение фактической модели — калибровка по натурным данным</li>
+      <li>Построение проектной модели с учётом предложенных мероприятий</li>
+      <li>Сравнительный анализ: длины заторов, скорость потока, плотность, время проезда участка</li>
+    </ul>
+  </div>
+
+  <div class="report-section">
+    <h2>Результаты моделирования</h2>
+    <p>Сопоставление фактической и проектной моделей показало значительное снижение заторовой нагрузки на обоих перекрёстках после применения предложенных мероприятий.</p>
+
+    <table class="results-table">
+      <thead>
+        <tr>
+          <th>Подход к перекрёстку</th>
+          <th>Затор факт, м</th>
+          <th>Затор проект, м</th>
+          <th>Изменение</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Строителей–Комсомольская–Кирова, подход 1</td>
+          <td>427</td>
+          <td>162</td>
+          <td class="result-better">−62%</td>
+        </tr>
+        <tr>
+          <td>Строителей–Комсомольская–Кирова, подход 2</td>
+          <td>179</td>
+          <td>23</td>
+          <td class="result-better">−87%</td>
+        </tr>
+        <tr>
+          <td>Строителей–Комсомольская–Кирова, подход 3</td>
+          <td>48</td>
+          <td>50</td>
+          <td>+4%</td>
+        </tr>
+        <tr>
+          <td>Строителей–Ватутина, подход 5</td>
+          <td>17</td>
+          <td>19</td>
+          <td>+16%</td>
+        </tr>
+        <tr>
+          <td>Строителей–Ватутина, подход 8</td>
+          <td>25</td>
+          <td>15</td>
+          <td class="result-better">−42%</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top:20px;">Время проезда расчётного автомобиля по участку 2 550 м (пр. Кирова, 148 — ул. Строителей, 43) в прямом направлении сократилось с <strong>431 с</strong> до <strong>304 с</strong> — на 29%.</p>
+  </div>
+
+  <div class="report-section">
+    <h2>Предложенные мероприятия</h2>
+    <ul>
+      <li>Корректировка фаз светофорных объектов для максимально эффективного использования 6-полосной ул. Строителей без заторов из-за нехватки зелёной фазы</li>
+      <li>Изменение организации движения по полосам на перекрёстках — исключение конфликтных точек</li>
+      <li>Исключение разрешённых поворотов на участках примыканий — выезжающие потоки разворачиваются на ближайших примыканиях</li>
+    </ul>
+  </div>
+
+  <div class="case-cta">
+    <h2>Нужно аналогичное исследование?</h2>
+    <p>Выполним транспортное моделирование для вашего объекта: реконструкция улиц, новые перекрёстки, транспортная доступность застройки.</p>
+    <a href="../../#contact" class="btn-cta">Обсудить проект</a>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2025 Автодорпроект</p>
+  <div class="footer-links">
+    <a href="mailto:info@avtodor.pro">info@avtodor.pro</a>
+    <a href="tel:+73812955253">+7 (3812) 95-52-53</a>
+  </div>
+</footer>
+
+</body>
+</html>
