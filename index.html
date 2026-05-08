@@ -797,6 +797,29 @@
     }
     .btn-report:hover { border-color: var(--accent); color: #fff; }
 
+    .cases-more-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 40px;
+      padding: 12px 28px;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      color: var(--text-dim);
+      font-size: 0.83rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: transparent;
+      transition: border-color .2s, color .2s;
+    }
+    .cases-more-btn:hover { border-color: var(--accent); color: #fff; }
+    .cases-more-btn .arrow { transition: transform .3s; display: inline-block; }
+    .cases-more-btn.open .arrow { transform: rotate(180deg); }
+    .cases-hidden { display: none; }
+    .cases-hidden.open { display: block; }
+
     /* ── CASES ── */
     .case-list { display: flex; flex-direction: column; }
 
@@ -1247,37 +1270,37 @@
 
     <!-- Кейс 2 -->
     <div class="case-item">
-      <!-- TODO: заменить на iframe когда видео ВК будет готово -->
-      <div class="case-video case-video--preview">
-        <div class="case-video-link" style="cursor:default;">
-          <div class="case-video-play" style="opacity:0.3;">&#9654;</div>
-          <div class="case-video-hint">Видео скоро появится</div>
-        </div>
+      <div class="case-video">
+        <iframe
+          src="https://vkvideo.ru/video_ext.php?oid=-206317138&id=456239021&hash=b91210406572104f&hd=3"
+          frameborder="0"
+          allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
+          allowfullscreen>
+        </iframe>
       </div>
       <div class="case-body">
-        <div class="case-meta"><span>2025</span> · ООО «Фостер» · Ковров</div>
-        <h3>Реконструкция ул. Строителей в Коврове</h3>
-        <p class="case-goal">Реконструкция шестиполосной ул. Строителей грозила перенести заторы на прилегающие перекрёстки — администрация города заказала комплексное моделирование для обоснования мероприятий в проекте планировки.</p>
+        <div class="case-meta"><span>2024</span> · ООО «Автодорпроект» · Омск</div>
+        <h3>Оптимизация транспортного узла ул. Красный путь — Фрунзе — Орджоникидзе</h3>
+        <p class="case-goal">Четыре перекрёстка в центре Омска работали на пределе пропускной способности: в вечерний час-пик заторы достигали 486 м. Требовалось обосновать мероприятия по оптимизации движения без реконструкции проезжей части.</p>
         <ul class="case-solutions">
-          <li>Провели натурное обследование 24 направлений движения на 2 перекрёстках</li>
-          <li>Построили имитационную микромодель в PTV Vissim: фактическое и проектное состояние</li>
-          <li>Разработали мероприятия: корректировка светофорных фаз и организации движения по полосам</li>
+          <li>Провели натурные обследования интенсивности и состава потоков в часы пик</li>
+          <li>Построили микромодель в PTV Vissim для всех четырёх перекрёстков</li>
+          <li>Разработали мероприятия: переразметка полос, корректировка светофорных фаз, ограничение левых поворотов на критических участках</li>
         </ul>
         <div class="case-kpis">
           <div class="case-kpi">
-            <div class="case-kpi-val">2</div>
+            <div class="case-kpi-val">4</div>
             <div class="case-kpi-label">перекрёстка</div>
           </div>
           <div class="case-kpi">
-            <div class="case-kpi-val">−<span>62%</span></div>
+            <div class="case-kpi-val">−<span>84%</span></div>
             <div class="case-kpi-label">длина заторов</div>
           </div>
           <div class="case-kpi">
-            <div class="case-kpi-val">2 550 <span>м</span></div>
-            <div class="case-kpi-label">участок моделирования</div>
+            <div class="case-kpi-val">486 <span>м</span></div>
+            <div class="case-kpi-label">максимальный затор</div>
           </div>
         </div>
-        <a href="cases/ul-stroiteley-kovrov/" class="btn-report">Подробный отчёт →</a>
       </div>
     </div>
 
@@ -1285,35 +1308,77 @@
     <div class="case-item">
       <div class="case-video">
         <iframe
-          src="about:blank"
+          src="https://vkvideo.ru/video_ext.php?oid=-206317138&id=456239022&hash=332d2eb888c8a7b6&hd=3"
           frameborder="0"
-          allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+          allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
           allowfullscreen>
         </iframe>
-        <div class="case-video-placeholder">Видео будет добавлено</div>
       </div>
       <div class="case-body">
-        <div class="case-meta"><span>2024</span> · Логистика · Екатеринбург</div>
-        <h3>Распределительный центр, 20 га</h3>
-        <p class="case-goal">Обосновать транспортное воздействие крупного распределительного центра на прилегающую УДС и получить положительное заключение экспертизы.</p>
+        <div class="case-meta"><span>2026</span> · ООО «Комус» · Омск</div>
+        <h3>Оценка транспортного воздействия жилого комплекса на ул. Подгорная</h3>
+        <p class="case-goal">Застройщику жилого комплекса на 414 машино-мест нужно было доказать, что дополнительный трафик не создаст критической нагрузки на прилегающую УДС и получить согласование в рамках проекта планировки.</p>
         <ul class="case-solutions">
-          <li>Маршрутизация 450 фур/сутки через выделенный технический въезд</li>
-          <li>Разделение потоков легковых и грузовых ТС на территории</li>
-          <li>Проектирование резервной накопительной зоны перед КПП</li>
+          <li>Видеофиксация транспортных потоков на 12 перекрёстках в утренний и вечерний час-пик</li>
+          <li>Построили модель в PTV Vissim с тремя сценариями: фактическое состояние, с ЖК, с мероприятиями</li>
+          <li>Разработали комплекс мер: новый светофорный объект, продление зелёной фазы, фотовидеофиксация нарушений парковки</li>
         </ul>
         <div class="case-kpis">
           <div class="case-kpi">
-            <div class="case-kpi-val">450</div>
-            <div class="case-kpi-label">фур/сутки</div>
+            <div class="case-kpi-val">12</div>
+            <div class="case-kpi-label">перекрёстков</div>
           </div>
           <div class="case-kpi">
-            <div class="case-kpi-val"><span>0</span></div>
-            <div class="case-kpi-label">замечаний экспертизы</div>
+            <div class="case-kpi-val">−<span>34%</span></div>
+            <div class="case-kpi-label">время в пути</div>
           </div>
           <div class="case-kpi">
-            <div class="case-kpi-val">5 <span>нед</span></div>
-            <div class="case-kpi-label">срок работ</div>
+            <div class="case-kpi-val">332</div>
+            <div class="case-kpi-label">авт./час добавлено</div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Кнопка раскрытия скрытых кейсов -->
+    <button class="cases-more-btn" onclick="toggleHiddenCases(this)" aria-expanded="false">
+      Все наши проекты <span class="arrow">↓</span>
+    </button>
+
+    <!-- Кейс 4 — скрыт до нажатия кнопки -->
+    <div class="cases-hidden" id="cases-hidden">
+      <div class="case-item">
+        <!-- TODO: заменить на iframe когда видео ВК будет готово -->
+        <div class="case-video case-video--preview">
+          <div class="case-video-link" style="cursor:default;">
+            <div class="case-video-play" style="opacity:0.3;">&#9654;</div>
+            <div class="case-video-hint">Видео скоро появится</div>
+          </div>
+        </div>
+        <div class="case-body">
+          <div class="case-meta"><span>2025</span> · ООО «Фостер» · Ковров</div>
+          <h3>Реконструкция ул. Строителей в Коврове</h3>
+          <p class="case-goal">Реконструкция шестиполосной ул. Строителей грозила перенести заторы на прилегающие перекрёстки — администрация города заказала комплексное моделирование для обоснования мероприятий в проекте планировки.</p>
+          <ul class="case-solutions">
+            <li>Провели натурное обследование 24 направлений движения на 2 перекрёстках</li>
+            <li>Построили имитационную микромодель в PTV Vissim: фактическое и проектное состояние</li>
+            <li>Разработали мероприятия: корректировка светофорных фаз и организации движения по полосам</li>
+          </ul>
+          <div class="case-kpis">
+            <div class="case-kpi">
+              <div class="case-kpi-val">2</div>
+              <div class="case-kpi-label">перекрёстка</div>
+            </div>
+            <div class="case-kpi">
+              <div class="case-kpi-val">−<span>62%</span></div>
+              <div class="case-kpi-label">длина заторов</div>
+            </div>
+            <div class="case-kpi">
+              <div class="case-kpi-val">2 550 <span>м</span></div>
+              <div class="case-kpi-label">участок моделирования</div>
+            </div>
+          </div>
+          <a href="cases/ul-stroiteley-kovrov/" class="btn-report">Подробный отчёт →</a>
         </div>
       </div>
     </div>
@@ -1760,6 +1825,14 @@
   const nav    = document.getElementById('main-nav');
   burger.addEventListener('click', () => nav.classList.toggle('open'));
   nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+
+  function toggleHiddenCases(btn) {
+    const hidden = document.getElementById('cases-hidden');
+    const open = hidden.classList.toggle('open');
+    btn.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open);
+    btn.querySelector('.arrow').textContent = open ? '↑' : '↓';
+  }
 
   function showModal() {
     document.getElementById('modal-overlay').classList.add('open');
