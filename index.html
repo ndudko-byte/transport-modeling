@@ -382,16 +382,48 @@
     /* ── TEAM ── */
     .team-list { display: flex; flex-direction: column; }
 
-    .team-item {
-      display: grid;
-      grid-template-columns: 80px 200px 1fr;
-      align-items: center;
-      gap: 32px;
-      padding: 36px 0;
+    .team-group-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      font-weight: 600;
+      padding: 28px 0 10px;
       border-bottom: 1px solid var(--border);
     }
 
-    .team-item:first-child { border-top: 1px solid var(--border); }
+    .team-item {
+      display: grid;
+      grid-template-columns: 60px 68px 190px 1fr;
+      align-items: center;
+      gap: 28px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .team-photo {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: top center;
+      flex-shrink: 0;
+    }
+
+    .team-photo-placeholder {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(99,179,237,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
 
     .team-num {
       font-size: 0.75rem;
@@ -1056,8 +1088,8 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      .team-item { grid-template-columns: 60px 1fr; }
-      .team-bio { grid-column: 2; }
+      .team-item { grid-template-columns: 44px 64px 1fr; }
+      .team-bio { grid-column: 1 / -1; }
       .about-grid { grid-template-columns: 1fr; gap: 48px; }
       .process-grid { grid-template-columns: repeat(2, 1fr); }
       .why-grid { grid-template-columns: 1fr; gap: 48px; }
@@ -1090,8 +1122,9 @@
       .service-num { padding-top: 0; }
       .process-grid { grid-template-columns: 1fr; }
       .case-kpis { grid-template-columns: 1fr; }
-      .team-item { grid-template-columns: 1fr; gap: 10px; }
+      .team-item { grid-template-columns: 64px 1fr; gap: 14px; }
       .team-num { display: none; }
+      .team-bio { grid-column: 1 / -1; }
       .about-stats { grid-template-columns: 1fr 1fr; }
       footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; }
       .chat-fab span { display: none; }
@@ -1574,40 +1607,78 @@
 
   <div class="team-list">
 
+    <div class="team-group-label">Моделирование и проектирование</div>
+
     <div class="team-item">
       <div class="team-num">01</div>
+      <img class="team-photo" src="source/pics/team/ivanov.png" alt="Иванов Евгений Владимирович" />
       <div class="team-name">
-        <h3>Дудко Николай</h3>
-        <div class="role">Руководитель проектов</div>
+        <h3>Иванов Евгений Владимирович</h3>
+        <div class="role">Руководитель проектной группы, к.т.н.</div>
       </div>
-      <div class="team-bio">Сертифицированный специалист PTV Vissim. Руководит полным циклом транспортных исследований — от натурных обследований до выпуска технического тома.</div>
+      <div class="team-bio">Кандидат технических наук, выпускник СибАДИ с отличием (2008). Руководит проектной группой, обеспечивает научное сопровождение. Работает в PTV Vissim, AutoCAD, IndorCAD.</div>
     </div>
 
     <div class="team-item">
       <div class="team-num">02</div>
+      <div class="team-photo-placeholder">НД</div>
       <div class="team-name">
-        <h3>Рюмкин Максим</h3>
-        <div class="role">Инженер-транспортник</div>
+        <h3>Дудко Николай Николаевич</h3>
+        <div class="role">Куратор направления</div>
       </div>
-      <div class="team-bio">Специализация — построение и калибровка микросимуляционных моделей в PTV Vissim. Опыт работы с крупными жилыми кварталами и транспортными узлами.</div>
+      <div class="team-bio">В транспортном планировании с 2008 года. Выпускник СибАДИ, в 2012–2014 гг. преподавал Градостроительство. Более 30 проектов в PTV Vissim — Олимпиада в Сочи, Москва, Беларусь, Казахстан, Владивосток, Тюмень, Южно-Сахалинск.</div>
     </div>
 
     <div class="team-item">
       <div class="team-num">03</div>
+      <img class="team-photo" src="source/pics/team/ryumkin.png" alt="Рюмкин Максим Александрович" />
       <div class="team-name">
-        <h3>Иванов Евгений</h3>
-        <div class="role">Инженер-транспортник</div>
+        <h3>Рюмкин Максим Александрович</h3>
+        <div class="role">Инженер-проектировщик</div>
       </div>
-      <div class="team-bio">Анализ транспортного воздействия проектируемых объектов, сценарное моделирование, подготовка материалов для государственной экспертизы.</div>
+      <div class="team-bio">Магистр СибАДИ, специализация — микросимуляционное моделирование в PTV Vissim. Лауреат Всероссийского инженерного конкурса 2024/2025. Проекты в Омске, Коврове, Пскове.</div>
     </div>
 
     <div class="team-item">
       <div class="team-num">04</div>
+      <img class="team-photo" src="source/pics/team/shevelev.png" alt="Шевелев Дмитрий Александрович" />
       <div class="team-name">
-        <h3>Шевелев Дмитрий</h3>
-        <div class="role">Аналитик данных</div>
+        <h3>Шевелев Дмитрий Александрович</h3>
+        <div class="role">Инженер-проектировщик</div>
       </div>
-      <div class="team-bio">Обработка результатов натурных обследований, расчёт матриц корреспонденций, визуализация транспортных потоков и подготовка технических отчётов.</div>
+      <div class="team-bio">Магистр СибАДИ (2021), инженер-проектировщик 1 категории. В профессии с 2020 года; повышение квалификации по транспортному моделированию (СПбГАСУ, 2023). Проекты в Омске и Пскове.</div>
+    </div>
+
+    <div class="team-group-label">Полевые обследования</div>
+
+    <div class="team-item">
+      <div class="team-num">05</div>
+      <img class="team-photo" src="source/pics/team/bezukhov.png" alt="Безухов Артём Игоревич" />
+      <div class="team-name">
+        <h3>Безухов Артём Игоревич</h3>
+        <div class="role">Инженер по транспортным обследованиям</div>
+      </div>
+      <div class="team-bio">Подсчёт интенсивностей транспортных и пешеходных потоков, аэрофотосъёмка БПЛА, геодезические работы. Сбор и первичная обработка полевых данных.</div>
+    </div>
+
+    <div class="team-item">
+      <div class="team-num">06</div>
+      <img class="team-photo" src="source/pics/team/lomakin.png" alt="Ломакин Дмитрий Владимирович" />
+      <div class="team-name">
+        <h3>Ломакин Дмитрий Владимирович</h3>
+        <div class="role">Инженер по транспортным обследованиям</div>
+      </div>
+      <div class="team-bio">Натурные транспортные обследования, геодезические работы, аэрофотосъёмка БПЛА. Обработка пространственных данных для целей транспортного моделирования.</div>
+    </div>
+
+    <div class="team-item">
+      <div class="team-num">07</div>
+      <img class="team-photo" src="source/pics/team/dudko-a.png" alt="Дудко Андрей Александрович" />
+      <div class="team-name">
+        <h3>Дудко Андрей Александрович</h3>
+        <div class="role">Инженер по транспортным обследованиям</div>
+      </div>
+      <div class="team-bio">Фиксация интенсивностей движения, БПЛА-съёмка, геодезия. Подготовка исходных данных для транспортного моделирования.</div>
     </div>
 
   </div>
