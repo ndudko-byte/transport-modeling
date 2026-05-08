@@ -1850,10 +1850,28 @@
     if (e.target === document.getElementById('modal-overlay')) closeModal();
   }
 
-  function handleForm(e) {
+  async function handleForm(e) {
     e.preventDefault();
-    showModal();
-    e.target.reset();
+    const btn = e.target.querySelector('button[type=submit]');
+    btn.disabled = true;
+    btn.textContent = 'Отправляем...';
+
+    const body = new FormData(e.target);
+    try {
+      const res  = await fetch('/transport/send.php', { method: 'POST', body });
+      const data = await res.json();
+      if (data.ok) {
+        showModal();
+        e.target.reset();
+      } else {
+        throw new Error();
+      }
+    } catch {
+      alert('Не удалось отправить заявку. Позвоните нам: +7 (3812) 95-52-53');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Отправить заявку';
+    }
   }
 
   function toggleChat() {
