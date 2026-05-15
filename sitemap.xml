@@ -3,7 +3,7 @@
 
   <url>
     <loc>https://avtodor.pro/transport/</loc>
-    <lastmod>2026-05-09</lastmod>
+    <lastmod>2026-05-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -39,9 +39,23 @@
 
   <url>
     <loc>https://avtodor.pro/transport/blog/</loc>
-    <lastmod>2026-05-09</lastmod>
+    <lastmod>2026-05-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://avtodor.pro/transport/blog/kak-vybrat-podryadchika/</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://avtodor.pro/transport/blog/chto-takoe-podd/</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <url>
