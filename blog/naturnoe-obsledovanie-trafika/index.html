@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Натурное обследование транспортных потоков — Автодорпроект</title>
+  <meta name="description" content="Методы натурного обследования трафика: ручной учёт, видеосъёмка, индукционные петли, машинное зрение. Точность и применимость каждого подхода." />
+  <link rel="canonical" href="https://avtodor.pro/transport/blog/naturnoe-obsledovanie-trafika/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://avtodor.pro/transport/blog/naturnoe-obsledovanie-trafika/" />
+  <meta property="og:title" content="Натурное обследование транспортных потоков: методы и точность" />
+  <meta property="og:description" content="Какими методами проводится полевой учёт автомобилей, что именно замеряется и от чего зависит достоверность результата." />
+  <meta property="og:image" content="https://avtodor.pro/transport/source/pics/og-banner.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:site_name" content="Автодорпроект" />
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Натурное обследование транспортных потоков: методы, точность и выбор подхода",
+    "description": "Разбор методов полевого учёта автомобилей: ручной счёт, видеосъёмка, индукционные петли, машинное зрение. Что измеряется, как обеспечивается точность.",
+    "url": "https://avtodor.pro/transport/blog/naturnoe-obsledovanie-trafika/",
+    "publisher": {
+      "@type": "Organization",
+      "@id": "https://avtodor.pro/#organization",
+      "name": "Автодорпроект"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Автодорпроект"
+    },
+    "datePublished": "2026-05-16",
+    "dateModified": "2026-05-16",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://avtodor.pro/transport/blog/naturnoe-obsledovanie-trafika/"
+    }
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0f1c2e;
+      --surface:  #162336;
+      --card:     #1c2e45;
+      --accent:   #2f80c2;
+      --accent2:  #1a5f96;
+      --text:     #d4dde8;
+      --text-dim: #8a9bb0;
+      --border:   #253a55;
+      --radius:   10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Onest', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      border-bottom: 1px solid rgba(37,58,85,.6);
+      background: rgba(15,28,46,.92);
+      backdrop-filter: blur(12px);
+    }
+    .logo { font-size: 0.9rem; font-weight: 700; color: #fff; text-decoration: none; letter-spacing: 0.04em; text-transform: uppercase; }
+    .back-link {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--text-dim); font-size: 0.85rem; text-decoration: none;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .back-link:hover { color: #fff; }
+
+    main { max-width: 760px; margin: 0 auto; padding: 120px 48px 80px; }
+
+    .breadcrumb {
+      font-size: 0.78rem; color: var(--text-dim);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .breadcrumb a { color: var(--text-dim); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { margin: 0 8px; }
+
+    .article-label {
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 2.1rem; font-weight: 700;
+      color: #fff; line-height: 1.25;
+      margin-bottom: 24px;
+    }
+
+    .article-meta-row {
+      display: flex; align-items: center; gap: 24px;
+      padding: 16px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 48px;
+      font-size: 0.82rem; color: var(--text-dim);
+    }
+
+    .article-body h2 {
+      font-size: 1.15rem; font-weight: 700; color: #fff;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 20px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      margin-top: 48px;
+    }
+    .article-body h2:first-child { margin-top: 0; }
+
+    .article-body h3 {
+      font-size: 1rem; font-weight: 700; color: #fff;
+      margin-top: 28px; margin-bottom: 12px;
+    }
+
+    .article-body p { color: var(--text); margin-bottom: 18px; }
+
+    .article-body ul, .article-body ol {
+      padding-left: 0; list-style: none;
+      margin-bottom: 18px;
+    }
+
+    .article-body ul li, .article-body ol li {
+      padding: 8px 0 8px 24px;
+      border-bottom: 1px solid rgba(37,58,85,.4);
+      position: relative; color: var(--text);
+      counter-increment: ol-counter;
+    }
+
+    .article-body ul li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--accent);
+    }
+
+    .article-body ol { counter-reset: ol-counter; }
+    .article-body ol li::before {
+      content: counter(ol-counter) '.';
+      position: absolute; left: 0;
+      color: var(--accent); font-weight: 700;
+    }
+
+    .article-body strong { color: #fff; }
+
+    .infobox {
+      background: var(--card);
+      border-left: 3px solid var(--accent);
+      padding: 20px 24px;
+      margin: 32px 0;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .infobox p { margin-bottom: 0; font-size: 0.92rem; }
+
+    /* Карточка метода */
+    .method-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      margin-bottom: 24px;
+    }
+    .method-card h3 {
+      font-size: 1.1rem; font-weight: 700; color: #fff;
+      margin-top: 0; margin-bottom: 12px;
+    }
+    .method-card .method-row {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      margin-bottom: 16px;
+    }
+    .method-card .method-row span {
+      font-size: 0.74rem; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: rgba(47,128,194,.12);
+      padding: 4px 12px; border-radius: 50px;
+    }
+    .method-card p { font-size: 0.92rem; margin-bottom: 12px; }
+    .method-card p:last-child { margin-bottom: 0; }
+
+    /* Сравнительная таблица */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 32px 0;
+      font-size: 0.88rem;
+    }
+    .compare-table th, .compare-table td {
+      text-align: left;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .compare-table th {
+      font-weight: 700; color: #fff;
+      font-size: 0.78rem; letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--surface);
+    }
+    .compare-table td { color: var(--text); }
+    .compare-table td:first-child {
+      color: #fff; font-weight: 700;
+    }
+
+    .related {
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+    }
+    .related-label {
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--text-dim); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 20px;
+    }
+    .related-links { display: flex; flex-direction: column; gap: 12px; }
+    .related-links a {
+      color: var(--text); text-decoration: none;
+      font-size: 0.95rem; padding: 14px 20px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color .2s, color .2s;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .related-links a:hover { border-color: var(--accent); color: #fff; }
+    .related-links a::after { content: '→'; color: var(--accent); }
+
+    .article-cta {
+      margin-top: 64px; padding: 40px;
+      background: var(--surface); border: 1px solid var(--border);
+      text-align: center; border-radius: var(--radius);
+    }
+    .article-cta h2 { font-size: 1.3rem; color: #fff; margin-bottom: 12px; }
+    .article-cta p { color: var(--text-dim); margin-bottom: 28px; }
+    .btn-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--accent); color: #fff;
+      padding: 14px 32px; border-radius: 50px;
+      font-size: 0.9rem; font-weight: 700;
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: background .2s;
+    }
+    .btn-cta:hover { background: var(--accent2); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.82rem; color: var(--text-dim);
+    }
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    .footer-links { display: flex; gap: 24px; }
+
+    @media (max-width: 680px) {
+      header { padding: 0 20px; }
+      main { padding: 100px 20px 60px; }
+      h1 { font-size: 1.6rem; }
+      footer { flex-direction: column; gap: 12px; padding: 24px 20px; }
+      .article-cta { padding: 28px 20px; }
+      .method-card { padding: 22px 20px; }
+      .compare-table { font-size: 0.8rem; }
+      .compare-table th, .compare-table td { padding: 10px 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../../" class="logo">Автодорпроект</a>
+  <a href="../" class="back-link">← Блог</a>
+</header>
+
+<main>
+  <div class="breadcrumb">
+    <a href="../../">Главная</a>
+    <span>/</span>
+    <a href="../">Блог</a>
+    <span>/</span>
+    Натурное обследование
+  </div>
+
+  <div class="article-label">Методология · Натурное обследование · Сбор данных</div>
+  <h1>Натурное обследование транспортных потоков: методы, точность и выбор подхода</h1>
+
+  <div class="article-meta-row">
+    <span>Автодорпроект</span>
+    <span>·</span>
+    <span>Май 2026</span>
+    <span>·</span>
+    <span>8 мин чтения</span>
+  </div>
+
+  <div class="article-body">
+
+    <p>Любая транспортная модель — это математическое описание реальности. Чтобы она имела практическую ценность, исходные данные должны быть собраны на местности: сколько машин едет, в каких направлениях, в какое время, с какой скоростью. Эта работа называется натурным обследованием транспортных потоков.</p>
+
+    <p>От качества полевых данных напрямую зависит то, пройдёт ли модель валидацию и можно ли доверять её прогнозам. Подменить натурное обследование оценкой «по карте» или экстраполяцией с других объектов нельзя — экспертиза такие модели не принимает, а проектные решения на них опираться рискованно.</p>
+
+    <h2>Что замеряется в ходе обследования</h2>
+
+    <p>Стандартный набор показателей зависит от задачи, но базовый перечень одинаков для большинства проектов транспортного моделирования:</p>
+
+    <ul>
+      <li><strong>Интенсивность движения</strong> — количество транспортных средств за единицу времени по каждому направлению на каждом обследуемом перекрёстке</li>
+      <li><strong>Состав потока</strong> — доли легковых, грузовых автомобилей, автобусов, мотоциклов</li>
+      <li><strong>Задержки на светофорах</strong> — время ожидания в зелёной/красной фазе по каждому направлению</li>
+      <li><strong>Длины очередей</strong> — максимальная и средняя длины очередей за период наблюдения</li>
+      <li><strong>Скорости движения</strong> — на перегонах между перекрёстками, в свободном потоке и в часы пик</li>
+      <li><strong>Пешеходные потоки</strong> — количество пешеходов на пешеходных переходах, направления движения</li>
+      <li><strong>Парковочное использование</strong> — заполненность парковок, динамика въезда/выезда</li>
+    </ul>
+
+    <h2>Методы обследования</h2>
+
+    <div class="method-card">
+      <h3>Ручной учёт наблюдателями</h3>
+      <div class="method-row">
+        <span>Классика</span>
+        <span>Высокая точность</span>
+        <span>Трудоёмко</span>
+      </div>
+      <p>На каждый обследуемый перекрёсток выходят наблюдатели с планшетами или счётчиками. Они фиксируют каждый автомобиль по направлению и категории — обычно по 15-минутным интервалам.</p>
+      <p>Метод даёт высокую точность при условии правильной расстановки и обученности персонала: на сложном перекрёстке с 12 направлениями нужно 2–3 человека. Применяется для типовых задач: ОВТД, перекрёстки, входы и выходы на объекты.</p>
+    </div>
+
+    <div class="method-card">
+      <h3>Видеосъёмка с последующей обработкой</h3>
+      <div class="method-row">
+        <span>Документируемость</span>
+        <span>Архивируется</span>
+        <span>Время обработки</span>
+      </div>
+      <p>На перекрёстке устанавливаются видеокамеры (стационарные или на штативах), которые непрерывно фиксируют движение. Обработка — ручная или с помощью специализированного ПО — выполняется в офисе.</p>
+      <p>Ключевое преимущество — <strong>записанные данные можно перепроверить</strong>. При замечаниях от экспертизы возвращаемся к видео, а не приходится повторять обследование. Также видеозапись можно использовать для иллюстрации в техническом отчёте.</p>
+    </div>
+
+    <div class="method-card">
+      <h3>Индукционные петли и магнитометры</h3>
+      <div class="method-row">
+        <span>Непрерывная регистрация</span>
+        <span>Только интенсивность</span>
+        <span>Капитальная установка</span>
+      </div>
+      <p>Датчики в дорожном покрытии, фиксирующие проезд транспортного средства по изменению магнитного поля. В России такие системы установлены на крупных федеральных трассах и в составе АСУДД ряда городов.</p>
+      <p>Подход хорош для долгосрочного мониторинга — данные накапливаются круглосуточно и автоматически. Ограничение: <strong>состав потока определяется приблизительно</strong> (по длине автомобиля), классификация ограничена. Не подходит для перекрёстков с несколькими направлениями на одной полосе.</p>
+    </div>
+
+    <div class="method-card">
+      <h3>Машинное зрение и нейросетевая обработка</h3>
+      <div class="method-row">
+        <span>Современный подход</span>
+        <span>Автоматизация</span>
+        <span>Развивается</span>
+      </div>
+      <p>Видеопоток с камер обрабатывается нейросетями: автомобили распознаются, классифицируются, отслеживаются их траектории. Метод сочетает преимущества видеосъёмки (документируемость) с автоматизацией (нет ручной разметки).</p>
+      <p>Российские разработки в этой области активно развиваются — наш инженер Максим Рюмкин опубликовал концепцию ИТС на основе машинного зрения в Вестнике СибАДИ. <strong>Точность распознавания состава потока приближается к 95–98%</strong> на типовых ракурсах съёмки.</p>
+      <p>Ограничения: качество распознавания зависит от условий съёмки (дождь, снег, контровой свет). Для отдельных задач требуется ручная коррекция результатов.</p>
+    </div>
+
+    <h2>Сравнение методов</h2>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Метод</th>
+          <th>Точность</th>
+          <th>Документируемость</th>
+          <th>Применимость</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ручной счёт</td>
+          <td>Высокая</td>
+          <td>Только протокол</td>
+          <td>Перекрёстки, типовые задачи</td>
+        </tr>
+        <tr>
+          <td>Видеосъёмка</td>
+          <td>Высокая</td>
+          <td>Полная (видео)</td>
+          <td>Сложные перекрёстки, экспертиза</td>
+        </tr>
+        <tr>
+          <td>Индукционные петли</td>
+          <td>Высокая по интенсивности</td>
+          <td>Лог-файлы</td>
+          <td>Перегон, постоянный мониторинг</td>
+        </tr>
+        <tr>
+          <td>Машинное зрение</td>
+          <td>Высокая</td>
+          <td>Полная (видео + лог)</td>
+          <td>Крупные объекты, длительные обследования</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Когда и как долго проводить обследование</h2>
+
+    <p>Стандартная практика для большинства проектов:</p>
+
+    <ul>
+      <li><strong>Утренний пиковый час:</strong> обычно 7:30–9:30, точное время уточняется по местной специфике</li>
+      <li><strong>Вечерний пиковый час:</strong> обычно 17:00–19:30</li>
+      <li><strong>Межпиковый период:</strong> 12:00–14:00 — для оценки фонового режима</li>
+      <li><strong>Дни недели:</strong> вторник, среда, четверг — наиболее показательные «типичные рабочие» дни. Понедельник и пятница могут давать смещённую картину</li>
+      <li><strong>Время года:</strong> для большинства объектов — учебный период, не каникулы и не отпускные сезоны</li>
+      <li><strong>Погода:</strong> без осадков, не в первый день снегопада</li>
+    </ul>
+
+    <p>Для проектов с сезонной спецификой (рекреация, торговые центры) добавляются обследования в выходные и в характерные сезоны.</p>
+
+    <div class="infobox">
+      <p><strong>Минимальный период для одного цикла обследования</strong> — два пиковых часа в один день. Для проектов с прохождением экспертизы рекомендуется два дня обследования с разнесением по времени, чтобы исключить случайные отклонения.</p>
+    </div>
+
+    <h2>Что влияет на точность результата</h2>
+
+    <p><strong>Правильная расстановка наблюдателей.</strong> Если на одной точке стоит один человек на семь направлений, ошибка неизбежна. Стандартная норма — один наблюдатель на 3–4 направления; для сложных узлов — двое.</p>
+
+    <p><strong>15-минутные интервалы агрегации.</strong> Замеры в более крупных интервалах (получасовых, часовых) сглаживают пик. Стандарт отрасли — фиксация каждых 15 минут с возможностью посмотреть на пиковые подынтервалы.</p>
+
+    <p><strong>Обучение и контроль качества.</strong> Перед обследованием наблюдатели проходят инструктаж и пробный замер на учебном перекрёстке. В ходе работ выборочно проверяются протоколы.</p>
+
+    <p><strong>Учёт условий замера.</strong> В протоколе обязательно фиксируются: погода, видимость, заметные инциденты (ДТП, перекрытия). При нестандартных условиях обследование переносится.</p>
+
+    <h2>Куда движется индустрия</h2>
+
+    <p>Натурное обследование традиционно остаётся «ручным» процессом, но это меняется. Уже сейчас на крупных проектах применяются: автоматическая обработка видеопотока нейросетями, телеметрия от подключённых автомобилей (флоты такси, каршеринг), данные операторов сотовой связи для матриц корреспонденций.</p>
+
+    <p>Полностью автоматизировать обследование пока невозможно — данные с разных источников нужно согласовывать и валидировать на «эталонных» точках классического ручного учёта. Но доля автоматизированного сбора растёт год от года, удешевляя длительные обследования и расширяя пространственный охват.</p>
+
+  </div>
+
+  <div class="related">
+    <div class="related-label">Читайте также</div>
+    <div class="related-links">
+      <a href="../kak-provesti-ovozt/">Как проводится ОВТД: этапы, сроки и что получает заказчик</a>
+      <a href="../mashinnoe-zrenie-propusknaya-sposobnost/">Машинное зрение для управления транспортными потоками</a>
+      <a href="../mikro-mezo-makro-modelirovanie/">Микро-, мезо- и макромоделирование: чем отличаются</a>
+    </div>
+  </div>
+
+  <div class="article-cta">
+    <h2>Нужно натурное обследование для проекта?</h2>
+    <p>Расскажите о задаче — определим состав замеров, точки обследования и подходящий метод. Работаем по всей России: собственная полевая группа и видеокомплексы.</p>
+    <a href="../../#contact" class="btn-cta">Обсудить проект</a>
+  </div>
+</main>
+
+<footer>
+  <p>&copy; 2025 Автодорпроект</p>
+  <div class="footer-links">
+    <a href="mailto:info@avtodor.pro">info@avtodor.pro</a>
+    <a href="tel:+73812955253">+7 (3812) 95-52-53</a>
+  </div>
+</footer>
+
+</body>
+</html>
